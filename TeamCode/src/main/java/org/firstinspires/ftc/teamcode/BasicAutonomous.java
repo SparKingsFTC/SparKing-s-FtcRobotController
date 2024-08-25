@@ -22,14 +22,14 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()){
-            moveFoward(0.1,1);
-            moveFoward(0.1,2);
+            moveForward(0.1,1);
+            moveForward(0.1,2);
         }
 
 
 
     }
-    public void moveFoward(double power, long time){
+    public void moveForward(double power, long time){
 
         robot.leftFront.setPower(power);
         robot.leftBack.setPower(power);
