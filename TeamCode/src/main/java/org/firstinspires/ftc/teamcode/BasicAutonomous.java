@@ -8,16 +8,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 public class BasicAutonomous extends LinearOpMode {
-    Robot robot = new Robot();
+    Robot robot;
 
 
     @Override
-    public void runOpMode() throws InterruptedException{
-        robot.leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        robot.rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        robot.leftBack  = hardwareMap.get(DcMotor.class, "leftRear");
-        robot.rightBack = hardwareMap.get(DcMotor.class, "rightRear");
+    public void runOpMode() {
 
+        robot = new Robot();
 
         waitForStart();
 
@@ -37,24 +34,39 @@ public class BasicAutonomous extends LinearOpMode {
         robot.rightBack.setPower(power);
 
         sleep(time);
+
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
     }
     public void turnRight(double power, long time){
 
         robot.leftFront.setPower(-power);
-        robot. leftBack.setPower(-power);
-        robot. rightFront.setPower(power);
-        robot.  rightBack.setPower(power);
+        robot.leftBack.setPower(-power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
 
         sleep(time);
+
+        robot.leftFront.setPower(0);
+        robot. leftBack.setPower(0);
+        robot. rightFront.setPower(0);
+        robot.  rightBack.setPower(0);
     }
     public void turnLeft(double power, long time){
 
         robot.leftFront.setPower(power);
         robot.leftBack.setPower(power);
         robot.rightFront.setPower(-power);
-        robot. rightBack.setPower(-power);
+        robot.rightBack.setPower(-power);
 
         sleep(time);
+
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
     }
 
 }
