@@ -34,10 +34,9 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            rightFront.setPower(0.1);
-            rightBack.setPower(0.1);
-            leftFront.setPower(0.1);
-            leftBack.setPower(0.1);
+            moveFoward(0.1, 4);
+            turnRight(0.1, 2);
+            turnLeft(0.1,2);
         }
 
 
