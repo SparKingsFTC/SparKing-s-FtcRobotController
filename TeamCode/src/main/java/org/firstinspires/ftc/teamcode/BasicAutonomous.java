@@ -42,12 +42,11 @@ public class BasicAutonomous extends LinearOpMode {
 
 
     }
-}
- /*  public void moveForward(double power, long time){
 
-       leftFront.setPower(power);
-       leftBack.setPower(power);
-       rightFront.setPower(power);
+    public void moveFoward(double power, long time) {
+        leftFront.setPower(power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
         rightBack.setPower(power);
 
         sleep(time);
@@ -55,35 +54,39 @@ public class BasicAutonomous extends LinearOpMode {
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
-       rightBack.setPower(0);
-}*/
-//    public void turnRight(double power, long time){
-//
-//        leftFront.setPower(-power);
-////        leftBack.setPower(-power);
-////        rightFront.setPower(power);
-////        rightBack.setPower(power);
-//
-//        sleep(time);
-//
-//        leftFront.setPower(0);
-////         leftBack.setPower(0);
-////        rightFront.setPower(0);
-////        rightBack.setPower(0);
-//    }
-//    public void turnLeft(double power, long time){
-//
-//       leftFront.setPower(power);
-////        leftBack.setPower(power);
-////       rightFront.setPower(-power);
-////        rightBack.setPower(-power);
-//
-//        sleep(time);
-//
-//        leftFront.setPower(0);
-////        leftBack.setPower(0);
-////        rightFront.setPower(0);
-////        rightBack.setPower(0);
-//    }
-//
-//}
+        rightBack.setPower(0);
+
+
+    }
+
+    public void turnRight(double power, long time) {
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        rightBack.setPower(power);
+
+        sleep(time);
+
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+    }
+
+
+    public void turnLeft(double power, long time) {
+
+        leftFront.setPower(power);
+        leftBack.setPower(power);
+        rightFront.setPower(-power);
+        rightBack.setPower(-power);
+
+        sleep(time);
+
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+    }
+}
+
