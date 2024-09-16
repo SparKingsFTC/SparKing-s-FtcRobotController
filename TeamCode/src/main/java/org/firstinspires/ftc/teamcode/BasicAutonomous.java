@@ -30,13 +30,20 @@ public class BasicAutonomous extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+
 
         waitForStart();
 
         while (opModeIsActive()) {
-            moveFoward(0.1, 4);
-            turnRight(0.1, 2);
-            turnLeft(0.1,2);
+            leftFront.setPower(0.1);
+            leftBack.setPower(0.1);
+            rightFront.setPower(0.1);
+            rightBack.setPower(0.1);
+
         }
 
 
@@ -50,19 +57,15 @@ public class BasicAutonomous extends LinearOpMode {
 
         sleep(time);
 
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
 
 
     }
 
     public void turnRight(double power, long time) {
-        leftFront.setPower(-power);
-        leftBack.setPower(-power);
-        rightFront.setPower(power);
-        rightBack.setPower(power);
+        leftFront.setPower(power);
+        leftBack.setPower(power);
+        rightFront.setPower(-power);
+        rightBack.setPower(-power);
 
         sleep(time);
 
@@ -70,6 +73,7 @@ public class BasicAutonomous extends LinearOpMode {
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
+
     }
 
 
@@ -82,10 +86,7 @@ public class BasicAutonomous extends LinearOpMode {
 
         sleep(time);
 
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
+
     }
 }
 
