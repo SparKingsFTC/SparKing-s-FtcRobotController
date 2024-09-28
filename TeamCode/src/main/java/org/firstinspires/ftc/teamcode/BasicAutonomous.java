@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 public class BasicAutonomous extends LinearOpMode {
-
     public DcMotor leftFront = null;
     public DcMotor rightFront = null;
     public DcMotor leftBack = null;
@@ -39,11 +38,8 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            leftFront.setPower(0.1);
-            leftBack.setPower(0.1);
-            rightFront.setPower(0.1);
-            rightBack.setPower(0.1);
-
+           moveFoward(0.1, 4000);
+           stopMotor();
         }
 
 
@@ -69,10 +65,6 @@ public class BasicAutonomous extends LinearOpMode {
 
         sleep(time);
 
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
 
     }
 
@@ -85,6 +77,14 @@ public class BasicAutonomous extends LinearOpMode {
         rightBack.setPower(-power);
 
         sleep(time);
+
+
+    }
+    public void stopMotor(){
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
 
 
     }
