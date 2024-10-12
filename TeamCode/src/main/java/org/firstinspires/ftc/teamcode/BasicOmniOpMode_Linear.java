@@ -253,7 +253,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(WRIST_FOLDED_IN);
                 intake.setPower(INTAKE_COLLECT);
 
             }
@@ -269,7 +269,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad2.right_bumper){
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(WRIST_FOLDED_IN);
             }
 
             else if (gamepad2.a) {
@@ -277,7 +277,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     back to folded inside the robot. This is also the starting configuration */
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_IN);
+                wrist.setPosition(WRIST_FOLDED_OUT);
 
             }
 
