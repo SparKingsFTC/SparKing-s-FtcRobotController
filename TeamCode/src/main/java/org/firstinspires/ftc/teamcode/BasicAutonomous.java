@@ -50,8 +50,8 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-           moveArm(0.5, 2000);
-           moveArm(-0.5, 2000);
+           //moveArm(0.5, 2000);
+           //moveArm(-0.5, 2000);
 
            stopMotor();
 //312 rpm
@@ -157,7 +157,7 @@ public class BasicAutonomous extends LinearOpMode {
 
     }
 
-    public void rotateLeft(double power, long time) {
+    public void turnLeft(double power, long time) {
 
         leftFrontDrive.setPower(power);
         leftBackDrive.setPower(power);
@@ -166,17 +166,6 @@ public class BasicAutonomous extends LinearOpMode {
 
         sleep(time);
 
-
-    }
-
-    public void rotateRight(double power, long time) {
-
-        leftFrontDrive.setPower(-power);
-        leftBackDrive.setPower(-power);
-        rightFrontDrive.setPower(power);
-        rightBackDrive.setPower(power);
-
-        sleep(time);
 
     }
 
