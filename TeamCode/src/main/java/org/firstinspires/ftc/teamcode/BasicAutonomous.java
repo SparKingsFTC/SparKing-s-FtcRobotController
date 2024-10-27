@@ -60,48 +60,48 @@ public class BasicAutonomous extends LinearOpMode {
             //place right next to net zone(NOT IN NEXT)
            //basic autonomos (no way this will work!!)
             // PLACE BACKWARDS
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5, 1400);
+            moveFoward(0.5, 2170);
             stopMotor();
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5, 1400);
+            moveFoward(0.5, 2170);
             stopMotor();
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5, 1400);
+            moveFoward(0.5, 2170);
             stopMotor();
             //captured first 3
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             stopMotor();
-            moveLeft(0.5, 700);
+            moveLeft(0.5, 1085);
             stopMotor();
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5, 2800);
+            moveFoward(0.5, 4340);
             stopMotor();
-            moveBack(0.5, 2800);
+            moveBack(0.5, 4340);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5,2800);
+            moveFoward(0.5,4340);
             stopMotor();
-            moveBack(0.5, 2800);
+            moveBack(0.5, 4340);
             stopMotor();
-            moveRight(0.5, 200);
+            moveRight(0.5, 310);
             stopMotor();
-            moveFoward(0.5,2800);
+            moveFoward(0.5,4340);
             stopMotor();
-            moveBack(0.5, 1400);
+            moveBack(0.5, 2170);
             //done. probably :)
             stopMotor();
 
