@@ -50,64 +50,53 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-           //moveArm(0.5, 2000);
-           //moveArm(-0.5, 2000);
 
-           stopMotor();
+
 //312 rpm
             //156 rpm
-            //20 inches per sec
+            //45.01 inches per sec
             //place right next to net zone(NOT IN NEXT)
-           //basic autonomos (no way this will work!!)
-            // PLACE BACKWARDS
-            moveBack(0.5, 1400);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5, 1400);
-            stopMotor();
-            moveBack(0.5, 1400);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5, 1400);
-            stopMotor();
-            moveBack(0.5, 1400);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5, 1400);
-            stopMotor();
-            //captured first 3
-            moveBack(0.5, 1400);
-            stopMotor();
-            moveLeft(0.5, 700);
-            stopMotor();
-            moveBack(0.5, 1400);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5, 2800);
-            stopMotor();
-            moveBack(0.5, 2800);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5,2800);
-            stopMotor();
-            moveBack(0.5, 2800);
-            stopMotor();
-            moveRight(0.5, 200);
-            stopMotor();
-            moveFoward(0.5,2800);
-            stopMotor();
-            moveBack(0.5, 1400);
-            //done. probably :)
-            stopMotor();
+           //PLACE SO CAN SCORE
+            //set wrist at 1
+            //10 hole base
+            //17 hole arm
+            //117 rpm for arm
+
+            //code for arm scoring
+            moveFoward(0.5, 298);
+            moveArm(0.25, 1372);
+            wrist.setPosition(0.5);
+            intake.setPower(1);
+            intake.setPower(0);
+            wrist.setPosition(1);
+            moveArm(0.25, -1372);
+            moveBack(0.5, 298);
+
+            //code for arm scoring
+            moveRight(0.5, 1067);
+            moveFoward(0.5, 178);
+            moveLeft(0.5, 1067);
+            moveRight(0.5, 1067);
+            moveFoward(0.5, 223);
+            moveLeft(0.5, 1067);
+            moveBack(0.5, 401);
+            //captured first two. cant capture 3rd because wheel is too thick (maybe come back to pick up with arm?)
+            moveBack(0.5, 2133); //96 inches (4 squares)
+            moveRight(0.5, 1066); //48 inches (2 squares) r
+            moveBack(0.5, 178);
+            moveLeft(0.5, 800); // 36 inches (1.5 squares) l
+            moveRight(0.5, 267); //12 inches r
+            moveBack(0.5, 355);
+            moveLeft(0.5, 267);
+            moveFoward(0.5, 2311);
+            moveFoward(0.5, 355);
+            moveBack(0.5, 355);
+            //og position
+            //got 1, rest cant b/c robot is to big to fit behind samples (cant pick up with arm b/c of placement. need to figure out rotations)
+            moveBack(0.5,2133);
+            //parked :)
 
         }
-
-        //2.675 ft per sec
 
 
     }
@@ -118,6 +107,7 @@ public class BasicAutonomous extends LinearOpMode {
         rightFrontDrive.setPower(power);
         rightBackDrive.setPower(power);
         sleep(time);
+        stopMotor();
 
     }
     public void moveBack(double power, long time) {
@@ -126,6 +116,7 @@ public class BasicAutonomous extends LinearOpMode {
         rightFrontDrive.setPower(-power);
         rightBackDrive.setPower(-power);
         sleep(time);
+        stopMotor();
 
     }
 
@@ -136,6 +127,7 @@ public class BasicAutonomous extends LinearOpMode {
         rightBackDrive.setPower(-power);
 
         sleep(time);
+        stopMotor();
 
     }
 
@@ -145,6 +137,7 @@ public class BasicAutonomous extends LinearOpMode {
         rightFrontDrive.setPower(-power);
         rightBackDrive.setPower(power);
         sleep(time);
+        stopMotor();
 
     }
 
@@ -154,18 +147,18 @@ public class BasicAutonomous extends LinearOpMode {
         rightFrontDrive.setPower(power);
         rightBackDrive.setPower(-power);
         sleep(time);
-
+        stopMotor();
     }
 
     public void turnLeft(double power, long time) {
 
-        leftFrontDrive.setPower(power);
-        leftBackDrive.setPower(power);
-        rightFrontDrive.setPower(-power);
-        rightBackDrive.setPower(-power);
+        leftFrontDrive.setPower(-power);
+        leftBackDrive.setPower(-power);
+        rightFrontDrive.setPower(power);
+        rightBackDrive.setPower(power);
 
         sleep(time);
-
+        stopMotor();
 
     }
 
@@ -174,6 +167,7 @@ public class BasicAutonomous extends LinearOpMode {
         armMotor.setPower(power);
 
         sleep(time);
+        stopMotor();
 
 
     }
