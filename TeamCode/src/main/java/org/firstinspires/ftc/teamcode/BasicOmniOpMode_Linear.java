@@ -69,7 +69,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
 
-public class BasicOmniOpMode_Linear extends LinearOpMode {
+public class
+    
+BasicOmniOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
