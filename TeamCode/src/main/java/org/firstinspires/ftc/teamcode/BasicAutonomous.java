@@ -50,7 +50,9 @@ public class BasicAutonomous extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-
+            moveRight(0.5, 290);
+            moveFoward(0.5, 1406);
+            moveLeft(0.5, 290);
             moveFoward(0.5, 298);
             moveArm(0.25, 1372);
             wrist.setPosition(0.5);
