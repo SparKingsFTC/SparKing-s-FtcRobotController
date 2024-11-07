@@ -114,7 +114,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_COLLECT               = 10 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 80 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SAMPLE_IN_LOW   = 85 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
 
@@ -136,7 +136,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 480 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 540 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -307,7 +307,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 intake.setPower(INTAKE_OFF);
                 liftPosition = LIFT_COLLAPSED;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(WRIST_FOLDED_IN);
 
             }
 
