@@ -114,7 +114,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_COLLECT               = 10 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 85 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SAMPLE_IN_LOW   = 99 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
 
@@ -124,7 +124,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double INTAKE_DEPOSIT    =  0.5;
 
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 0.1;
+    final double WRIST_FOLDED_IN   = 0.8333;
     final double WRIST_FOLDED_OUT  = 0.5;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
@@ -136,7 +136,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 540 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 550 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -281,7 +281,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
                 liftPosition = LIFT_COLLAPSED;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                wrist.setPosition(WRIST_FOLDED_OUT);
                 intake.setPower(INTAKE_COLLECT);
 
             }
@@ -298,7 +298,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                wrist.setPosition(WRIST_FOLDED_OUT);
             }
 
             else if (gamepad2.a) {
