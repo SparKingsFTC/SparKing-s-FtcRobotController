@@ -65,12 +65,12 @@ public class BasicAutonomous extends LinearOpMode {
 
             //code for arm scoring
             moveFoward(0.5, 298);
-            moveArm(0.25, 1372);
+            moveArm(0.25, 3643);
             wrist.setPosition(0.5);
             intake.setPower(1);
             intake.setPower(0);
             wrist.setPosition(1);
-            moveArm(0.25, -1372);
+            moveArm(0.25, -3643);
             moveBack(0.5, 298);
 
             //code for arm scoring
