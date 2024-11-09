@@ -53,50 +53,41 @@ public class BasicAutonomous extends LinearOpMode {
 //
 
             
-//312 rpm
-            //156 rpm
-            //45.01 inches per sec
-            //place right next to net zone(NOT IN NEXT)
-           //PLACE SO CAN SCORE
-            //set wrist at 1
-            //10 hole base
-            //17 hole arm
-            //117 rpm for arm
+//place so front is touching wall, right next to net zone
 
             //code for arm scoring
-            moveFoward(0.5, 298);
-            moveArm(0.25, 3643);
-            wrist.setPosition(0.5);
-            intake.setPower(1);
-            intake.setPower(0);
-            wrist.setPosition(1);
-            moveArm(0.25, -3643);
-            moveBack(0.5, 298);
+            //moveFoward(0.5, 298);
+            //moveArm(0.25, 3643);
+            //wrist.setPosition(0.5);
+            //intake.setPower(1);
+            //intake.setPower(0);
+            //wrist.setPosition(1);
+            //moveArm(0.25, -3643);
+            //moveBack(0.5, 298);
 
             //code for arm scoring
-            moveRight(0.5, 1067);
-            moveFoward(0.5, 178);
-            moveLeft(0.5, 1067);
-            moveRight(0.5, 1067);
-            moveFoward(0.5, 223);
-            moveLeft(0.5, 1067);
-            moveBack(0.5, 401);
-            //captured first two. cant capture 3rd because wheel is too thick (maybe come back to pick up with arm?)
-            moveBack(0.5, 2133); //96 inches (4 squares)
-            moveRight(0.5, 1066); //48 inches (2 squares) r
-            moveBack(0.5, 178);
-            moveLeft(0.5, 800); // 36 inches (1.5 squares) l
-            moveRight(0.5, 267); //12 inches r
-            moveBack(0.5, 355);
-            moveLeft(0.5, 267);
-            moveFoward(0.5, 2311);
-            moveFoward(0.5, 355);
-            moveBack(0.5, 355);
-            //og position
-            //got 1, rest cant b/c robot is to big to fit behind samples (cant pick up with arm b/c of placement. need to figure out rotations)
-            moveBack(0.5,2133);
-            //parked :)
-
+            moveBack(0.5, 1781);
+            moveRight(0.5, 162);
+            moveFoward(0.5, 1781);
+            moveBack(0.5, 1781);
+            moveRight(0.5, 324);
+            moveFoward(0.5, 1781);
+            moveRight(0.5, 162);
+            moveFoward(0.5,1781);
+            moveLeft(0.5,648);
+            //captured all 3, move in og position
+            moveLeft(0.5, 2706);
+            moveBack(0.5, 1781);
+            moveLeft(0.5, 551);
+            moveFoward(0.5, 972);
+            moveBack(0.5, 583);
+            moveLeft(0.5, 648);
+            moveFoward(0.5, 842);
+            moveRight(0.5, 4308);
+            //captured 1
+            moveLeft(0.5, 4308);
+            moveFoward(0.5, 356);
+            //parked
         }
 
 
