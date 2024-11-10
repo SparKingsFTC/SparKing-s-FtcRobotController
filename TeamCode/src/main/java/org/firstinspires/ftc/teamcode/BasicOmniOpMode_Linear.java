@@ -111,7 +111,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
-    final double ARM_COLLECT               = 10 * ARM_TICKS_PER_DEGREE;
+    final double ARM_COLLECT               = 25 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 80 * ARM_TICKS_PER_DEGREE;
@@ -135,6 +135,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  40 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_HIGH_BASKET = 480 * LIFT_TICKS_PER_MM;
 
@@ -189,7 +190,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setTargetPosition(0);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
@@ -280,8 +281,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
-                liftPosition = LIFT_COLLAPSED;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                liftPosition = LIFT_COLLECT; // is this what we want?
+                wrist.setPosition(WRIST_FOLDED_OUT);
                 intake.setPower(INTAKE_COLLECT);
 
             }
@@ -298,7 +299,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                wrist.setPosition(WRIST_FOLDED_OUT);
             }
 
             else if (gamepad2.a) {
@@ -306,8 +307,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     back to folded inside the robot. This is also the starting configuration */
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 intake.setPower(INTAKE_OFF);
-                liftPosition = LIFT_COLLAPSED;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                liftPosition =LIFT_COLLAPSED;                              ;
+                wrist.setPosition(WRIST_FOLDED_IN);
 
             }
 
@@ -429,7 +430,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             liftMotor.setTargetPosition((int) (liftPosition));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
-            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
             /* Check to see if our arm is over the current limit, and report via telemetry. */
