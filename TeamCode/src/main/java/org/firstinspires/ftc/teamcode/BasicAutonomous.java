@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -49,38 +50,44 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+//
 
-            moveRight(0.5, 290);
-            moveFoward(0.5, 1406);
-            moveLeft(0.5, 290);
-            moveFoward(0.5, 298);
-            moveArm(0.25, 1372);
-            wrist.setPosition(0.5);
-            intake.setPower(1);
-            intake.setPower(0);
-            wrist.setPosition(1);
-            moveArm(0.25, -1372);
-            moveBack(0.5, 298);
-            moveRight(0.5, 1067);
-            moveFoward(0.5, 178);
-            moveLeft(0.5, 1067);
-            moveRight(0.5, 1067);
-            moveFoward(0.5, 223);
-            moveLeft(0.5, 1067);
-            moveBack(0.5, 401);
-            moveBack(0.5, 2133);
-            moveRight(0.5, 1066);
-            moveBack(0.5, 178);
-            moveLeft(0.5, 800);
-            moveRight(0.5, 267);
-            moveBack(0.5, 355);
-            moveLeft(0.5, 267);
-            moveFoward(0.5, 2311);
-            moveFoward(0.5, 355);
-            moveBack(0.5, 355);
-            moveBack(0.5,2133);
-            //parked :)
 
+//place so front is touching wall, right next to net zone
+
+            //code for arm scoring
+            //moveFoward(0.5, 298);
+            //moveArm(0.25, 3643);
+            //wrist.setPosition(0.5);
+            //intake.setPower(1);
+            //intake.setPower(0);
+            //wrist.setPosition(1);
+            //moveArm(0.25, -3643);
+            //moveBack(0.5, 298);
+
+            //code for arm scoring
+            moveBack(0.5, 1781);
+            moveRight(0.5, 162);
+            moveFoward(0.5, 1781);
+            moveBack(0.5, 1781);
+            moveRight(0.5, 324);
+            moveFoward(0.5, 1781);
+            moveRight(0.5, 162);
+            moveFoward(0.5,1781);
+            moveLeft(0.5,648);
+            //captured all 3, move in og position
+            moveLeft(0.5, 2706);
+            moveBack(0.5, 1781);
+            moveLeft(0.5, 551);
+            moveFoward(0.5, 972);
+            moveBack(0.5, 583);
+            moveLeft(0.5, 648);
+            moveFoward(0.5, 842);
+            moveRight(0.5, 4308);
+            //captured 1
+            moveLeft(0.5, 4308);
+            moveFoward(0.5, 356);
+            //parked
         }
 
 
@@ -168,3 +175,4 @@ public class BasicAutonomous extends LinearOpMode {
 
 
 }
+
