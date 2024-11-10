@@ -78,9 +78,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor armMotor = null;
-    public DcMotor  liftMotor        = null;
-    public CRServo  intake      = null; //the active intake servo
-    public Servo    wrist       = null; //the wrist servo
+    public DcMotor  liftMotor = null;
+    public CRServo  intake = null; //the active intake servo
+    public Servo    wrist = null; //the wrist servo
 
 
 
@@ -211,6 +211,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -279,7 +281,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
 
-
             if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
@@ -297,10 +298,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 armPosition = ARM_CLEAR_BARRIER;
             }
 
-            else if (gamepad2.right_bumper){
+            else if (gamepad2.b){
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
-                liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
+                //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
                 wrist.setPosition(WRIST_FOLDED_OUT);
             }
 
@@ -387,7 +388,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             /* Here we set the target position of our arm to match the variable that was selected
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
-            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
+            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor + armLiftComp));
 
             ((DcMotorEx) armMotor).setVelocity(2100);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
