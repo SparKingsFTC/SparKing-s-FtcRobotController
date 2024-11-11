@@ -188,7 +188,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -315,14 +315,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
 
-            else if (gamepad2.left_bumper){
+            //else if (gamepad2.left_bumper){
                 /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-                armPosition = ARM_SCORE_SPECIMEN;
-                wrist.setPosition(WRIST_FOLDED_IN);
+               // armPosition = ARM_SCORE_SPECIMEN;
+                //wrist.setPosition(WRIST_FOLDED_IN);
 
 
-            }
-
+            //}
             else if (gamepad2.dpad_up){
                 /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
                 armPosition = ARM_ATTACH_HANGING_HOOK;
