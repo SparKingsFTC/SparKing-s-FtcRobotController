@@ -190,8 +190,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftMotor.setTargetPosition(0);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
 
 
         /* Make sure that the intake is off, and the wrist is folded in. */
@@ -338,7 +340,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
             /* gamepad2 x is collect
                 y is to clear the barrier
-                RB is low basket
+                B is high basket
                 a is back into starting position
                 LB is speciman
                 dpad up is low
