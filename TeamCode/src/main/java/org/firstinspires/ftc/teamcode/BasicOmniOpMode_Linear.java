@@ -78,8 +78,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor armMotor = null;
-    public CRServo  intake      = null; //the active intake servo
-    public Servo    wrist       = null; //the wrist servo
+    public DcMotor  liftMotor = null;
+    public CRServo  intake = null; //the active intake servo
+    public Servo    wrist = null; //the wrist servo
 
 
 
@@ -110,12 +111,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
-    final double ARM_COLLECT               = 244 * ARM_TICKS_PER_DEGREE;
-    final double ARM_CLEAR_BARRIER         = 210 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SPECIMEN        = 145 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 145 * ARM_TICKS_PER_DEGREE;
-    final double ARM_ATTACH_HANGING_HOOK   = 120 * ARM_TICKS_PER_DEGREE;
-    final double ARM_WINCH_ROBOT           = 15  * ARM_TICKS_PER_DEGREE;
+    final double ARM_COLLECT               = 25 * ARM_TICKS_PER_DEGREE;
+    final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SAMPLE_IN_LOW   = 80 * ARM_TICKS_PER_DEGREE;
+    final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
+    final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
     final double INTAKE_COLLECT    = -1.0;
@@ -123,13 +124,29 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double INTAKE_DEPOSIT    =  0.5;
 
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 1;
+    final double WRIST_FOLDED_IN   = 0.1;
     final double WRIST_FOLDED_OUT  = 0.5;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
     double armPosition = (int)ARM_COLLAPSED_INTO_ROBOT;
     double armPositionFudgeFactor;
+
+    final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
+
+    final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  40 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 480 * LIFT_TICKS_PER_MM;
+
+    double liftPosition = LIFT_COLLAPSED;
+
+    double cycletime = 0;
+    double looptime = 0;
+    double oldtime = 0;
+
+    double armLiftComp = 0;
+
 
     @Override
     public void runOpMode() {
@@ -141,6 +158,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -152,10 +171,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
@@ -169,10 +188,19 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotor.setTargetPosition(0);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
 
         /* Make sure that the intake is off, and the wrist is folded in. */
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist  = hardwareMap.get(Servo.class, "wrist");
+        intake.setPower(INTAKE_OFF);
+        wrist.setPosition(WRIST_FOLDED_IN);
         /* Send telemetry message to signify robot waiting */
         telemetry.addLine("Robot Ready.");
         telemetry.update();
@@ -185,6 +213,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -195,10 +225,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral - yaw;
-            double rightFrontPower = axial - lateral + yaw;
-            double leftBackPower   = axial - lateral - yaw;
-            double rightBackPower  = axial + lateral + yaw;
+            double leftFrontPower  = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower   = axial - lateral + yaw;
+            double rightBackPower  = axial + lateral - yaw;
             //double armPower = armMotion;
 
             // Normalize the values so no wheel power exceeds 100%
@@ -250,10 +280,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(WRIST_FOLDED_IN);
             }
 
+
+
+
             if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                liftPosition = LIFT_COLLECT; // is this what we want?
+                wrist.setPosition(WRIST_FOLDED_OUT);
                 intake.setPower(INTAKE_COLLECT);
 
             }
@@ -266,10 +300,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 armPosition = ARM_CLEAR_BARRIER;
             }
 
-            else if (gamepad2.right_bumper){
+            else if (gamepad2.b){
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
+                wrist.setPosition(WRIST_FOLDED_OUT);
             }
 
             else if (gamepad2.a) {
@@ -277,18 +312,18 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     back to folded inside the robot. This is also the starting configuration */
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_OUT);
-
-            }
-
-            else if (gamepad2.left_bumper){
-                /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-                armPosition = ARM_SCORE_SPECIMEN;
+                liftPosition =LIFT_COLLAPSED;                              ;
                 wrist.setPosition(WRIST_FOLDED_IN);
 
-
             }
 
+            //else if (gamepad2.left_bumper){
+                /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
+               // armPosition = ARM_SCORE_SPECIMEN;
+                //wrist.setPosition(WRIST_FOLDED_IN);
+
+
+            //}
             else if (gamepad2.dpad_up){
                 /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
                 armPosition = ARM_ATTACH_HANGING_HOOK;
@@ -305,11 +340,40 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
             /* gamepad2 x is collect
                 y is to clear the barrier
-                RB is low basket
+                B is high basket
                 a is back into starting position
                 LB is speciman
                 dpad up is low
                 dpad down is to push the robot up*/
+
+               /*
+            This is probably my favorite piece of code on this robot. It's a clever little software
+            solution to a problem the robot has.
+            This robot has an extending lift on the end of an arm shoulder. That arm shoulder should
+            run to a specific angle, and stop there to collect from the field. And the angle that
+            the shoulder should stop at changes based on how long the arm is (how far the lift is extended)
+            so here, we add a compensation factor based on how far the lift is extended.
+            That comp factor is multiplied by the number of mm the lift is extended, which
+            results in the number of degrees we need to fudge our arm up by to keep the end of the arm
+            the same distance from the field.
+            Now we don't need this to happen when the arm is up and in scoring position. So if the arm
+            is above 45°, then we just set armLiftComp to 0. It's only if it's below 45° that we set it
+            to a value.
+             */
+
+            if (armPosition < 45 * ARM_TICKS_PER_DEGREE){
+                armLiftComp = (0.25568 * liftPosition);
+            }
+            else{
+                armLiftComp = 0;
+            }
+
+
+
+
+
+
+
 
             /* Here we create a "fudge factor" for the arm position.
             This allows you to adjust (or "fudge") the arm position slightly with the gamepad triggers.
@@ -325,10 +389,60 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             /* Here we set the target position of our arm to match the variable that was selected
             by the driver.
             We also set the target velocity (speed) the motor runs at, and use setMode to run it.*/
-            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor));
+            armMotor.setTargetPosition((int) (armPosition + armPositionFudgeFactor + armLiftComp));
 
             ((DcMotorEx) armMotor).setVelocity(2100);
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+               /* Here we set the lift position based on the driver input.
+            This is a.... weird, way to set the position of a "closed loop" device. The lift is run
+            with encoders. So it knows exactly where it is, and there's a limit to how far in and
+            out it should run. Normally with mechanisms like this we just tell it to run to an exact
+            position. This works a lot like our arm. Where we click a button and it goes to a position, then stops.
+            But the drivers wanted more "open loop" controls. So we want the lift to keep extending for
+            as long as we hold the bumpers, and when we let go of the bumper, stop where it is at.
+            This allows the driver to manually set the position, and not have to have a bunch of different
+            options for how far out it goes. But it also lets us enforce the end stops for the slide
+            in software. So that the motor can't run past it's endstops and stall.
+            We have our liftPosition variable, which we increment or decrement for every cycle (every
+            time our main robot code runs) that we're holding the button. Now since every cycle can take
+            a different amount of time to complete, and we want the lift to move at a constant speed,
+            we measure how long each cycle takes with the cycletime variable. Then multiply the
+            speed we want the lift to run at (in mm/sec) by the cycletime variable. There's no way
+            that our lift can move 2800mm in one cycle, but since each cycle is only a fraction of a second,
+            we are only incrementing it a small amount each cycle.
+             */
+
+            if (gamepad2.right_bumper){
+                liftPosition += 2800 * cycletime;
+            }
+            else if (gamepad2.left_bumper){
+                liftPosition -= 2800 * cycletime;
+            }
+            /*here we check to see if the lift is trying to go higher than the maximum extension.
+             *if it is, we set the variable to the max.
+             */
+            if (liftPosition > LIFT_SCORING_IN_HIGH_BASKET){
+                liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
+            }
+            //same as above, we see if the lift is trying to go below 0, and if it is, we set it to 0.
+            if (liftPosition < 0){
+                liftPosition = 0;
+            }
+
+            liftMotor.setTargetPosition((int) (liftPosition));
+
+            ((DcMotorEx) liftMotor).setVelocity(2100);
+       //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            /* Check to see if our arm is over the current limit, and report via telemetry. */
+            if (((DcMotorEx) armMotor).isOverCurrent()){
+                telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
+            }
+
+
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -341,6 +455,17 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
             }
             // Show the elapsed game time and wheel power.
+
+
+            looptime = getRuntime();
+            cycletime = looptime-oldtime;
+            oldtime = looptime;
+
+
+            telemetry.addData("lift variable", liftPosition);
+            telemetry.addData("Lift Target Position",liftMotor.getTargetPosition());
+            telemetry.addData("lift current position", liftMotor.getCurrentPosition());
+            telemetry.addData("liftMotor Current:",((DcMotorEx) liftMotor).getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
