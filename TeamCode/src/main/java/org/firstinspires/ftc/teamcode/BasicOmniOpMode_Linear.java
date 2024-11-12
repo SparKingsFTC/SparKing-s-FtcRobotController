@@ -263,7 +263,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            if (gamepad2.b) {
+            if (gamepad2.dpad_up) {
                 intake.setPower(INTAKE_OFF);
             }
             else if (gamepad2.right_trigger != 0) {
@@ -324,27 +324,28 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
             //}
-            else if (gamepad2.dpad_up){
+            //else if (gamepad2.dpad_up){
                 /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
-                armPosition = ARM_ATTACH_HANGING_HOOK;
-                intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_IN);
-            }
+               // armPosition = ARM_ATTACH_HANGING_HOOK;
+                //intake.setPower(INTAKE_OFF);
+                //wrist.setPosition(WRIST_FOLDED_IN);
+          //  }
 
-            else if (gamepad2.dpad_down){
+            //else if (gamepad2.dpad_down){
                 /* this moves the arm down to lift the robot up once it has been hooked */
-                armPosition = ARM_WINCH_ROBOT;
-                intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_IN);
+              //  armPosition = ARM_WINCH_ROBOT;
+                //intake.setPower(INTAKE_OFF);
+                //wrist.setPosition(WRIST_FOLDED_IN);
 
-            }
+            //}
             /* gamepad2 x is collect
                 y is to clear the barrier
                 B is high basket
                 a is back into starting position
-                LB is speciman
-                dpad up is low
-                dpad down is to push the robot up*/
+                LB and RB is viperslide
+                dpad up turn off intake
+                triggers control intake
+             */
 
                /*
             This is probably my favorite piece of code on this robot. It's a clever little software
