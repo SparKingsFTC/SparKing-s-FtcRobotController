@@ -67,14 +67,14 @@ public class BasicAutonomous extends LinearOpMode {
 
             //code for arm scoring
             moveBack(0.5, 1781);
-            moveRight(0.5, 162);
+            moveRight(0.5, 300);
             moveFoward(0.5, 1781);
             moveBack(0.5, 1781);
-            moveRight(0.5, 324);
+            moveRight(0.5, 600);
             moveFoward(0.5, 1781);
-            moveRight(0.5, 162);
+            moveRight(0.5, 300);
             moveFoward(0.5,1781);
-            moveLeft(0.5,648);
+            moveLeft(0.5,1200);
             //captured all 3, move in og position
             moveLeft(0.5, 2706);
             moveBack(0.5, 1781);
