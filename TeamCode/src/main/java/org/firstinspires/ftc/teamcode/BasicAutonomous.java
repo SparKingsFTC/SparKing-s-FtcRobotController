@@ -70,7 +70,7 @@ public class BasicAutonomous extends LinearOpMode {
             moveRight(0.5, 500);
             moveFoward(0.5, 1781);
             moveBack(0.5, 1781);
-            moveRight(0.5, 550);
+            moveRight(0.5, 500);
             moveFoward(0.5, 1680);
             moveBack(0.5, 300);
             moveLeft(0.5,1050);
