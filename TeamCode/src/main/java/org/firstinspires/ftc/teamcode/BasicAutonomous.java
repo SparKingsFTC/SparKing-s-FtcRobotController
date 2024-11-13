@@ -75,7 +75,7 @@ public class BasicAutonomous extends LinearOpMode {
             moveBack(0.5, 300);
             moveLeft(0.5,1300);
             //captured all 3, move in og position
-            moveLeft(0.5, 2706);
+            moveLeft(0.5, 5000);
             moveBack(0.5, 1781);
             moveLeft(0.5, 551);
             moveFoward(0.5, 972);
