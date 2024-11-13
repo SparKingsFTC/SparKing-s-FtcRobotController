@@ -111,10 +111,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
-    final double ARM_COLLECT               = 25 * ARM_TICKS_PER_DEGREE;
+    final double ARM_COLLECT               = 20 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 80 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
 
@@ -124,8 +124,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double INTAKE_DEPOSIT    =  0.5;
 
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 0.1;
-    final double WRIST_FOLDED_OUT  = 0.5;
+    final double WRIST_FOLDED_IN   = 0.7;
+    final double WRIST_FOLDED_OUT  = 1;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -135,9 +135,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT =  40 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 480 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -176,6 +176,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -274,10 +275,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             if(gamepad1.b){
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(0.1667);
             }
             if(gamepad1.a){
-                wrist.setPosition(WRIST_FOLDED_IN);
+                wrist.setPosition(1);
+            }
+            if(gamepad1.x){
+                wrist.setPosition(0.72);
             }
 
 
@@ -312,8 +316,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     back to folded inside the robot. This is also the starting configuration */
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 intake.setPower(INTAKE_OFF);
-                liftPosition =LIFT_COLLAPSED;                              ;
-                wrist.setPosition(WRIST_FOLDED_IN);
+                liftPosition =LIFT_COLLAPSED;
+                ;
+                wrist.setPosition(WRIST_FOLDED_OUT);
 
             }
 
