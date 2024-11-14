@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous (name = "BasicAutonomous", group = "teamcode")
 
 
-public class BasicAutonomous extends LinearOpMode {
+public class AutoByParkingOnly extends LinearOpMode {
     public DcMotor leftFrontDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -50,43 +50,11 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-//
-
-            
-//place so front is touching wall, right next to net zone
-
-            //code for arm scoring
-            //moveFoward(0.5, 298);
-            //moveArm(0.25, 3643);
-            //wrist.setPosition(0.5);
-            //intake.setPower(1);
-            //intake.setPower(0);
-            //wrist.setPosition(1);
-            //moveArm(0.25, -3643);
-            //moveBack(0.5, 298);
-
-            //code for arm scoring
-            moveBack(0.5, 1781);
-            moveRight(0.5, 500);
-            moveFoward(0.5, 1781);
-            moveBack(0.5, 1781);
-            moveRight(0.5, 500);
-            moveFoward(0.5, 1680);
-            moveBack(0.5, 300);
-            moveLeft(0.5,1050);
-            //captured all 3, move in og position
-            moveLeft(0.5, 4500);
-            //moveBack(0.5, 1781);
-           // moveLeft(0.5, 551);
-          //  moveFoward(0.5, 972);
-          //  moveBack(0.5, 583);
-          //  moveLeft(0.5, 648);
-           // moveFoward(0.5, 842);
-          //  moveRight(0.5, 4308);
-            //captured 1
-            //moveLeft(0.5, 4308);
-           // moveFoward(0.5, 356);
-            //parked
+            //156 rpm
+            //45.01 inches per sec
+            //place next to observation zone
+            //place so can move backwards
+            moveBack(0.5, 800);
         }
 
 
