@@ -111,7 +111,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
-    final double ARM_COLLECT               = 20 * ARM_TICKS_PER_DEGREE;
+    final double ARM_COLLECT               = 10 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
@@ -135,9 +135,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  270 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 660 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -368,7 +368,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              */
 
             if (armPosition < 45 * ARM_TICKS_PER_DEGREE){
-                armLiftComp = (0.25568 * liftPosition);
+                armLiftComp = (0.18 * liftPosition);
             }
             else{
                 armLiftComp = 0;
