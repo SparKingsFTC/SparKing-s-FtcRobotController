@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous (name = "BasicAutonomous", group = "teamcode")
+@Autonomous (name = "AutoByObservation", group = "teamcode")
 
 
-public class BasicAutonomous extends LinearOpMode {
+public class AutoByObservation extends LinearOpMode {
     public DcMotor leftFrontDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -20,6 +20,8 @@ public class BasicAutonomous extends LinearOpMode {
     public CRServo intake      = null;
     public Servo wrist       = null;
     public DcMotor  liftMotor = null;
+
+
 
 
     @Override
@@ -32,14 +34,11 @@ public class BasicAutonomous extends LinearOpMode {
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class, "wrist");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
-
-
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -48,28 +47,17 @@ public class BasicAutonomous extends LinearOpMode {
         armMotor.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
         wrist.setDirection(Servo.Direction.FORWARD);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
         waitForStart();
 
         while (opModeIsActive()) {
-//
-
-
-//place so front is touching wall, right next to net zone
-
-            //code for arm scoring
-            //moveFoward(0.5, 298);
-            //moveArm(0.25, 3643);
-            //wrist.setPosition(0.5);
-            //intake.setPower(1);
-            //intake.setPower(0);
-            //wrist.setPosition(1);
-            //moveArm(0.25, -3643);
-            //moveBack(0.5, 298);
-
-            //code for arm scoring
+            moveBack(0.5, 500);
+            moveRight(0.5, 3300);
+            moveFoward(0.5, 800);
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1781);
@@ -77,13 +65,13 @@ public class BasicAutonomous extends LinearOpMode {
             moveRight(0.5, 500);
             moveFoward(0.5, 1680);
             moveBack(0.5, 650);
-
             moveLeft(0.5,1050);
-            //captured all 3, move in og position
             moveLeft(0.5, 4400);
             moveFoward(0.5, 650);
-            movelift(1, 450);
+            movelift(1, 300);
             requestOpModeStop();
+
+
         }
 
 
@@ -96,15 +84,6 @@ public class BasicAutonomous extends LinearOpMode {
         rightBackDrive.setPower(power);
         sleep(time);
         stopMotor();
-
-    }
-    public void movelift (double power, long time) {
-
-        liftMotor.setPower(power);
-
-        sleep(time);
-        stopMotor();
-
 
     }
     public void moveBack(double power, long time) {
@@ -159,9 +138,18 @@ public class BasicAutonomous extends LinearOpMode {
 
     }
 
-    public void moveArm(double power, long time) {
+    public void movelift (double power, long time) {
 
-        armMotor.setPower(power);
+        liftMotor.setPower(power);
+
+        sleep(time);
+        stopMotor();
+
+
+    }
+    public void moveliftback (double power, long time) {
+
+        liftMotor.setPower(-power);
 
         sleep(time);
         stopMotor();
@@ -180,4 +168,3 @@ public class BasicAutonomous extends LinearOpMode {
 
 
 }
-

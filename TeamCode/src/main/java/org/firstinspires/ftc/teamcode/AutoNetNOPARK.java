@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous (name = "BasicAutonomous", group = "teamcode")
+@Autonomous (name = "AutoNetNOPARK", group = "teamcode")
 
 
-public class BasicAutonomous extends LinearOpMode {
+public class AutoNetNOPARK extends LinearOpMode {
     public DcMotor leftFrontDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -39,7 +39,6 @@ public class BasicAutonomous extends LinearOpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -48,6 +47,7 @@ public class BasicAutonomous extends LinearOpMode {
         armMotor.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
         wrist.setDirection(Servo.Direction.FORWARD);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -76,12 +76,6 @@ public class BasicAutonomous extends LinearOpMode {
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1680);
-            moveBack(0.5, 650);
-
-            moveLeft(0.5,1050);
-            //captured all 3, move in og position
-            moveLeft(0.5, 4400);
-            moveFoward(0.5, 650);
             movelift(1, 450);
             requestOpModeStop();
         }
@@ -96,15 +90,6 @@ public class BasicAutonomous extends LinearOpMode {
         rightBackDrive.setPower(power);
         sleep(time);
         stopMotor();
-
-    }
-    public void movelift (double power, long time) {
-
-        liftMotor.setPower(power);
-
-        sleep(time);
-        stopMotor();
-
 
     }
     public void moveBack(double power, long time) {
@@ -125,6 +110,16 @@ public class BasicAutonomous extends LinearOpMode {
 
         sleep(time);
         stopMotor();
+
+    }
+
+    public void movelift (double power, long time) {
+
+        liftMotor.setPower(power);
+
+        sleep(time);
+        stopMotor();
+
 
     }
 
