@@ -51,18 +51,17 @@ public class AutoByObservation extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            moveBack(0.5, 100);
-            moveRight(0.5, 1000);
-            moveFoward(0.5, 100);
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1781);
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1680);
-            moveBack(0.5, 300);
+            moveBack(0.5, 650);
             moveLeft(0.5,1050);
-            moveLeft(0.5, 4500);
+            moveLeft(0.5, 4400);
+            moveFoward(0.5, 650);
+            requestOpModeStop();
 
         }
 
