@@ -19,6 +19,7 @@ public class AutoNetNOPARK extends LinearOpMode {
     public DcMotor armMotor = null;
     public CRServo intake      = null;
     public Servo wrist       = null;
+    public DcMotor  liftMotor = null;
 
 
     @Override
@@ -30,6 +31,8 @@ public class AutoNetNOPARK extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class, "wrist");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -44,6 +47,7 @@ public class AutoNetNOPARK extends LinearOpMode {
         armMotor.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
         wrist.setDirection(Servo.Direction.FORWARD);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -72,6 +76,7 @@ public class AutoNetNOPARK extends LinearOpMode {
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1680);
+            movelift(1, 450);
             requestOpModeStop();
         }
 
@@ -105,6 +110,16 @@ public class AutoNetNOPARK extends LinearOpMode {
 
         sleep(time);
         stopMotor();
+
+    }
+
+    public void movelift (double power, long time) {
+
+        liftMotor.setPower(power);
+
+        sleep(time);
+        stopMotor();
+
 
     }
 

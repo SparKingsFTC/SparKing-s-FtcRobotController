@@ -19,6 +19,7 @@ public class BasicAutonomous extends LinearOpMode {
     public DcMotor armMotor = null;
     public CRServo intake      = null;
     public Servo wrist       = null;
+    public DcMotor  liftMotor = null;
 
 
     @Override
@@ -30,12 +31,15 @@ public class BasicAutonomous extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class, "wrist");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -78,6 +82,7 @@ public class BasicAutonomous extends LinearOpMode {
             //captured all 3, move in og position
             moveLeft(0.5, 4400);
             moveFoward(0.5, 650);
+            movelift(1, 450);
             requestOpModeStop();
         }
 
@@ -91,6 +96,15 @@ public class BasicAutonomous extends LinearOpMode {
         rightBackDrive.setPower(power);
         sleep(time);
         stopMotor();
+
+    }
+    public void movelift (double power, long time) {
+
+        liftMotor.setPower(power);
+
+        sleep(time);
+        stopMotor();
+
 
     }
     public void moveBack(double power, long time) {

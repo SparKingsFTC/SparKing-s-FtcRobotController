@@ -19,6 +19,8 @@ public class AutoByParkingOnly extends LinearOpMode {
     public DcMotor armMotor = null;
     public CRServo intake      = null;
     public Servo wrist       = null;
+    public DcMotor  liftMotor = null;
+
 
 
     @Override
@@ -30,6 +32,7 @@ public class AutoByParkingOnly extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class, "wrist");
+        liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -44,6 +47,8 @@ public class AutoByParkingOnly extends LinearOpMode {
         armMotor.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(CRServo.Direction.FORWARD);
         wrist.setDirection(Servo.Direction.FORWARD);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
@@ -55,7 +60,10 @@ public class AutoByParkingOnly extends LinearOpMode {
             //place next to observation zone
             //place so can move backwards
             moveBack(0.5, 300);
-            moveLeft(0.5, 800);
+            moveLeft(0.5, 850);
+            moveFoward(0.5, 200);
+            movelift(1, 450);
+
             requestOpModeStop();
         }
 
@@ -91,7 +99,15 @@ public class AutoByParkingOnly extends LinearOpMode {
         stopMotor();
 
     }
+    public void movelift (double power, long time) {
 
+        liftMotor.setPower(power);
+
+        sleep(time);
+        stopMotor();
+
+
+    }
     public void moveRight(double power, long time) {
         leftFrontDrive.setPower(power);
         leftBackDrive.setPower(-power);

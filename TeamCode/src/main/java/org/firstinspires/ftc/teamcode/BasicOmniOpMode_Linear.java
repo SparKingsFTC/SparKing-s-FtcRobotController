@@ -199,6 +199,8 @@ BasicOmniOpMode_Linear extends LinearOpMode {
 
 
 
+
+
         /* Make sure that the intake is off, and the wrist is folded in. */
         intake = hardwareMap.get(CRServo.class, "intake");
         wrist  = hardwareMap.get(Servo.class, "wrist");
@@ -293,7 +295,6 @@ BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
                 liftPosition = LIFT_COLLECT; // is this what we want?
-                wrist.setPosition(WRIST_FOLDED_OUT);
                 intake.setPower(INTAKE_COLLECT);
 
             }
@@ -310,7 +311,6 @@ BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
-                wrist.setPosition(WRIST_FOLDED_OUT);
             }
 
             else if (gamepad2.a) {
@@ -320,7 +320,6 @@ BasicOmniOpMode_Linear extends LinearOpMode {
                 intake.setPower(INTAKE_OFF);
                 liftPosition =LIFT_COLLAPSED;
                 ;
-                wrist.setPosition(WRIST_FOLDED_OUT);
 
             }
 
