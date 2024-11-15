@@ -54,7 +54,8 @@ public class AutoByParkingOnly extends LinearOpMode {
             //45.01 inches per sec
             //place next to observation zone
             //place so can move backwards
-            moveLeft(0.5, 600);
+            moveBack(0.5, 300);
+            moveLeft(0.5, 800);
             requestOpModeStop();
         }
 
