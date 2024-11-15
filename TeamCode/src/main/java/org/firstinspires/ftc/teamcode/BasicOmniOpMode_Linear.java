@@ -112,7 +112,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
     final double ARM_COLLECT               = 10 * ARM_TICKS_PER_DEGREE;
-    final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
+    final double ARM_CLEAR_BARRIER         = 25 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
@@ -137,7 +137,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  270 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 660 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 680 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -176,7 +176,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -368,7 +368,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              */
 
             if (armPosition < 45 * ARM_TICKS_PER_DEGREE){
-                armLiftComp = (0.18 * liftPosition);
+                armLiftComp = (0.17 * liftPosition);
             }
             else{
                 armLiftComp = 0;
