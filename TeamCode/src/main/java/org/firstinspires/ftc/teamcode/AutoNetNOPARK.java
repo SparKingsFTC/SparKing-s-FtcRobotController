@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous (name = "AutoByParking", group = "teamcode")
+@Autonomous (name = "AutoNetNOPARK", group = "teamcode")
 
 
-public class AutoByParkingOnly extends LinearOpMode {
+public class AutoNetNOPARK extends LinearOpMode {
     public DcMotor leftFrontDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -50,11 +50,28 @@ public class AutoByParkingOnly extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            //156 rpm
-            //45.01 inches per sec
-            //place next to observation zone
-            //place so can move backwards
-            moveLeft(0.5, 600);
+//
+
+
+//place so front is touching wall, right next to net zone
+
+            //code for arm scoring
+            //moveFoward(0.5, 298);
+            //moveArm(0.25, 3643);
+            //wrist.setPosition(0.5);
+            //intake.setPower(1);
+            //intake.setPower(0);
+            //wrist.setPosition(1);
+            //moveArm(0.25, -3643);
+            //moveBack(0.5, 298);
+
+            //code for arm scoring
+            moveBack(0.5, 1781);
+            moveRight(0.5, 500);
+            moveFoward(0.5, 1781);
+            moveBack(0.5, 1781);
+            moveRight(0.5, 500);
+            moveFoward(0.5, 1680);
             requestOpModeStop();
         }
 
