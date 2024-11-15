@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous (name = "BasicAutonomous", group = "teamcode")
+@Autonomous (name = "AutoByObservation", group = "teamcode")
 
 
 public class AutoByObservation extends LinearOpMode {
@@ -50,7 +50,9 @@ public class AutoByObservation extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
+            moveBack(0.5, 500);
+            moveRight(0.5, 4143);
+            moveFoward(0.5, 500);
             moveBack(0.5, 1781);
             moveRight(0.5, 500);
             moveFoward(0.5, 1781);
