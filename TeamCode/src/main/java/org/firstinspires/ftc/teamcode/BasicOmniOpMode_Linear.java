@@ -163,6 +163,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
 
+        claw  = hardwareMap.get(Servo.class, "claw");
+
+
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
         // ########################################################################################
