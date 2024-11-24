@@ -122,7 +122,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
    /* final double INTAKE_COLLECT    = -1.0;
     final double INTAKE_OFF        =  0.0;
     final double INTAKE_DEPOSIT    =  0.5;
-*/
+*/ 
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
     final double WRIST_FOLDED_IN   = 0.7;
     final double WRIST_FOLDED_OUT  = 1;
