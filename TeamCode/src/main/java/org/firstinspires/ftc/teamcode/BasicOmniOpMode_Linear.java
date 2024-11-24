@@ -159,7 +159,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        armMotor = hardwareMap.get(DcMotor.class, "arm_motor"); 
+        armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
 
