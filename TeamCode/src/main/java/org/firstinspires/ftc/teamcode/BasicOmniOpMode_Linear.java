@@ -82,7 +82,7 @@ BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor armMotor = null;
     public CRServo  intake      = null; //the active intake servo
     public Servo    wrist       = null; //the wrist servo
-
+    public Servo    Claw = null;
 
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
@@ -110,6 +110,9 @@ BasicOmniOpMode_Linear extends LinearOpMode {
     160 * ARM_TICKS_PER_DEGREE. This asks the arm to move 160° from the starting position.
     If you'd like it to move further, increase that number. If you'd like it to not move
     as far from the starting position, decrease it. */
+
+    final double Claw_open    = -1.0;
+    final double Claw_close   =  1;
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
     final double ARM_COLLECT               = 244 * ARM_TICKS_PER_DEGREE;
@@ -258,6 +261,12 @@ BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(WRIST_FOLDED_IN);
                 intake.setPower(INTAKE_COLLECT);
 
+            }
+            if (gamepad1.dpad_down) {
+                Claw.setPosition(Claw_open);
+            }
+            else if (gamepad1.dpad_up) {
+                Claw.setPosition(Claw_close);
             }
 
             else if (gamepad2.y){
