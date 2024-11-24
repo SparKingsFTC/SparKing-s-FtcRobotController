@@ -148,7 +148,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     double armLiftComp = 0;
 
     final double claw_OPEN = 1;
-    final double claw_CLOSE= -1; 
+    final double claw_CLOSE= 0;
 
     @Override
     public void runOpMode() {
