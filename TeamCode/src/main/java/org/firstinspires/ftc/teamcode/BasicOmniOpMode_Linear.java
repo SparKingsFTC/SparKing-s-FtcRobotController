@@ -380,7 +380,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              */
 
             if (armPosition < 45 * ARM_TICKS_PER_DEGREE){
-                armLiftComp = (0.25568 * liftPosition);
+                armLiftComp = (0.17 * liftPosition);
             }
             else{
                 armLiftComp = 0;
