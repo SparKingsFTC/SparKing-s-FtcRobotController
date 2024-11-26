@@ -181,7 +181,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         wrist  = hardwareMap.get(Servo.class, "wrist");
-        wrist.setDirection(Servo.Direction.FORWARD);
 
 
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -283,11 +282,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(0.1667);
             }
             if(gamepad1.a){
-                wrist.setPosition(0.5);
+                wrist.setPosition(1);
             }
-            if(gamepad1.x){
-                wrist.setPosition(0.72);
-            }
+            // if(gamepad1.x){
+            //    wrist.setPosition(0.72);
+            //}
             if (gamepad1.dpad_up) {
                 claw.setPosition(claw_OPEN);
             }
@@ -325,11 +324,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad2.a) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
+                wrist.setPosition(WRIST_FOLDED_OUT);
+                sleep(500);
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 //intake.setPower(INTAKE_OFF);
                 liftPosition =LIFT_COLLAPSED;
-                ;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+
 
             }
 
@@ -436,10 +436,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
             else if (gamepad2.left_bumper){
                 liftPosition -= 2800 * cycletime;
+                wrist.setPosition(1);
             }
+
             /*here we check to see if the lift is trying to go higher than the maximum extension.
              *if it is, we set the variable to the max.
              */
+
             if (liftPosition > LIFT_SCORING_IN_HIGH_BASKET){
                 liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
             }
