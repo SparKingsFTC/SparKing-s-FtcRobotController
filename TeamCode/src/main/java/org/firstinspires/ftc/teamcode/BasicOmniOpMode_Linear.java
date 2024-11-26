@@ -79,7 +79,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor armMotor = null;
     public DcMotor  liftMotor = null;
-    public CRServo  intake = null; //the active intake servo
+//    public CRServo  intake = null; //the active intake servo
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
 
@@ -162,7 +162,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
-
         claw  = hardwareMap.get(Servo.class, "claw");
 
 
@@ -181,7 +180,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        wrist  = hardwareMap.get(Servo.class, "wrist");
+        wrist.setDirection(Servo.Direction.FORWARD);
 
 
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -199,15 +199,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        /* testing above^  */
 
 
 
         /* Make sure that the intake is off, and the wrist is folded in. */
-        intake = hardwareMap.get(CRServo.class, "intake");
-        wrist  = hardwareMap.get(Servo.class, "wrist");
+      //  intake = hardwareMap.get(CRServo.class, "intake");
+
         //intake.setPower(INTAKE_OFF);
-        wrist.setPosition(WRIST_FOLDED_IN);
         /* Send telemetry message to signify robot waiting */
         telemetry.addLine("Robot Ready.");
         telemetry.update();
@@ -284,7 +283,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(0.1667);
             }
             if(gamepad1.a){
-                wrist.setPosition(1);
+                wrist.setPosition(0.5);
             }
             if(gamepad1.x){
                 wrist.setPosition(0.72);
@@ -490,6 +489,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("armTarget: ", armMotor.getTargetPosition());
             telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
             telemetry.addData("wrist position" , wrist.getPosition());
+            telemetry.addData("wrist direction" , wrist.getDirection());
             telemetry.update();
         }
     }}
