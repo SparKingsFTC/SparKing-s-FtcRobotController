@@ -290,10 +290,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if(gamepad1.y){
                 wrist.setPosition(0.5);
             }
-            if (gamepad1.dpad_up) {
+            if (gamepad2.dpad_up) {
                 claw.setPosition(claw_OPEN);
             }
-            else if (gamepad1.dpad_down) {
+            else if (gamepad2.dpad_down) {
                 claw.setPosition(claw_CLOSE);
             }
 
@@ -334,14 +334,18 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
             }
-
+            if (gamepad1.right_bumper){
+                armPosition = armPosition + 25;
+            }
+            if (gamepad1.left_bumper){
+                armPosition = armPosition - 25;
+            }
             else if (gamepad2.x){
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
              armPosition = ARM_SCORE_SPECIMEN;
 
-
-
             }
+
             //else if (gamepad2.dpad_up){
             /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
             // armPosition = ARM_ATTACH_HANGING_HOOK;
