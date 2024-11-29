@@ -147,8 +147,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     double armLiftComp = 0;
 
-    final double claw_OPEN = 1;
-    final double claw_CLOSE= 0;
+    final double claw_OPEN = 0;
+    final double claw_CLOSE= 1;
 
     @Override
     public void runOpMode() {
@@ -287,6 +287,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if(gamepad1.x){
                 wrist.setPosition(0.67);
             }
+            if(gamepad1.y){
+                wrist.setPosition(0.5);
+            }
             if (gamepad1.dpad_up) {
                 claw.setPosition(claw_OPEN);
             }
@@ -297,22 +300,21 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
 
-            if(gamepad2.x){
+            //if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
-                armPosition = ARM_COLLECT;
-                liftPosition = LIFT_COLLECT; // is this what we want?
+              //  armPosition = ARM_COLLECT;
+                //liftPosition = LIFT_COLLECT; // is this what we want?
                 //wrist.setPosition(WRIST_FOLDED_OUT);
                 //intake.setPower(INTAKE_COLLECT);
 
-            }
+            //}
 
-            else if (gamepad2.y){
+            //else if (gamepad2.y){
                     /* This is about 20° up from the collecting position to clear the barrier
                     Note here that we don't set the wrist position or the intake power when we
-                    select this "mode", this means that the intake and wrist will continue what
-                    they were doing before we clicked left bumper. */
-                armPosition = ARM_CLEAR_BARRIER;
-            }
+                    select this "mode", this means that the intake and wrist will continue what                     they were doing before we clicked left bumper. */
+              //  armPosition = ARM_CLEAR_BARRIER;
+            //}
 
             else if (gamepad2.b){
                 /* This is the correct height to score the sample in the LOW BASKET */
@@ -333,13 +335,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
 
-            //else if (gamepad2.left_bumper){
+            else if (gamepad2.x){
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-            // armPosition = ARM_SCORE_SPECIMEN;
-            //wrist.setPosition(WRIST_FOLDED_IN);
+             armPosition = ARM_SCORE_SPECIMEN;
 
 
-            //}
+
+            }
             //else if (gamepad2.dpad_up){
             /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
             // armPosition = ARM_ATTACH_HANGING_HOOK;
