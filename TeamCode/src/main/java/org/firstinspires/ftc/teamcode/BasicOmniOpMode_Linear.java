@@ -124,8 +124,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double INTAKE_DEPOSIT    =  0.5;
 */
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 0.7;
-    final double WRIST_FOLDED_OUT  = 1;
+    final double WRIST_FOLDED_IN   = 0;
+    final double WRIST_FOLDED_OUT  = 0.72;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -279,14 +279,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }*/
 
             if(gamepad1.b){
-                wrist.setPosition(0.1667);
+                wrist.setPosition(0);
             }
             if(gamepad1.a){
-                wrist.setPosition(1);
+                wrist.setPosition(0.76);
             }
-            // if(gamepad1.x){
-            //    wrist.setPosition(0.72);
-            //}
+            if(gamepad1.x){
+                wrist.setPosition(0.67);
+            }
             if (gamepad1.dpad_up) {
                 claw.setPosition(claw_OPEN);
             }
@@ -301,7 +301,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the intaking/collecting arm position */
                 armPosition = ARM_COLLECT;
                 liftPosition = LIFT_COLLECT; // is this what we want?
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                //wrist.setPosition(WRIST_FOLDED_OUT);
                 //intake.setPower(INTAKE_COLLECT);
 
             }
@@ -318,13 +318,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                //wrist.setPosition();
             }
 
             else if (gamepad2.a) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(WRIST_FOLDED_IN);
                 sleep(500);
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 //intake.setPower(INTAKE_OFF);
@@ -436,7 +436,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
             else if (gamepad2.left_bumper){
                 liftPosition -= 2800 * cycletime;
-                wrist.setPosition(1);
+                wrist.setPosition(0);
             }
 
             /*here we check to see if the lift is trying to go higher than the maximum extension.
