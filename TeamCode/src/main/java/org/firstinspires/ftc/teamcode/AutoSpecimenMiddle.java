@@ -132,6 +132,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 //robot is 17 inches
+        //never put wrist at 1!! .85 or something
         claw.setPosition(1);
         ForwardBackward(0.5, 32, 1);
         armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
@@ -139,6 +140,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         wrist.setPosition(0.85);
         claw.setPosition(0);
         wrist.setPosition(0);
+        claw.setPosition(1);
         ForwardBackward(0.5, 2, -1);
         armMotor.setTargetPosition(ARM_COLLAPSED_INTO_ROBOT);
         ForwardBackward(0.5, 5, -1);
