@@ -148,6 +148,7 @@ public class AutoByNetEncoder extends LinearOpMode {
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
         requestOpModeStop();
 
         // to get lift and arm positions, steal from teleop ;)
