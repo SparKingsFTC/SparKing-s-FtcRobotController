@@ -88,10 +88,7 @@ public class AutoByNetEncoder extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         wrist  = hardwareMap.get(Servo.class, "wrist");
-        //#################################
-        //IMPOTANT!!!! NOT IMPORTING CLAW
-        //FIGURE OUT HOW TO
-        //###############################
+        claw = hardwareMap.get(Servo.class, "claw");
 
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -127,13 +124,16 @@ public class AutoByNetEncoder extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 //robot is 17 inches
+        claw.setPosition(1);
         ForwardBackward(0.5, 32, 1);
         armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
+        wrist.setPosition(0.67);
         wrist.setPosition(1);
-        armMotor.setTargetPosition(ARM_WINCH_ROBOT);
-        wrist.setPosition(0.7);
-        claw.setPosition(1);
-        ForwardBackward(0.5, 7, -1);
+        claw.setPosition(0);
+        wrist.setPosition(0);
+        ForwardBackward(0.5, 2, -1);
+        armMotor.setTargetPosition(ARM_COLLAPSED_INTO_ROBOT);
+        ForwardBackward(0.5, 5, -1);
         Right(0.5, 48);
         ForwardBackward(0.5, 24, -1);
 
@@ -357,7 +357,7 @@ public class AutoByNetEncoder extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
 
-            liftMotor.setTargetPosition(armposition);
+            armMotor.setTargetPosition(armposition);
 
 
             // Turn On RUN_TO_POSITION
