@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -42,7 +41,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
 
-public class AutoByNetEncoder extends LinearOpMode {
+public class AutoSpecimenMiddle extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftFrontDrive = null;
@@ -145,9 +144,7 @@ public class AutoByNetEncoder extends LinearOpMode {
         ForwardBackward(0.5, 5, -1);
         Right(0.5, 48);
         ForwardBackward(0.5, 24, -1);
-        liftMotor.setTargetPosition(0);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        liftMotorPlacement(0.5, 0);
         requestOpModeStop();
 
         // to get lift and arm positions, steal from teleop ;)
