@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
-@Disabled
+
 public class AutoByNetEncoder extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -67,6 +67,16 @@ public class AutoByNetEncoder extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 3.78 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
+    final double ARM_TICKS_PER_DEGREE =
+            28 // number of encoder ticks per rotation of the bare motor
+                    * 250047.0 / 4913.0 // This is the exact gear ratio of the 50.9:1 Yellow Jacket gearbox
+                    * 100.0 / 20.0 // This is the external gear reduction, a 20T pinion gear that drives a 100T hub-mount gear
+                    * 1/360.0; // we want ticks per degree, not per rotation
+    final int ARM_COLLAPSED_INTO_ROBOT  = 10;
+    final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
+    final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
+
+
     @Override
     public void runOpMode() {
 
@@ -116,6 +126,16 @@ public class AutoByNetEncoder extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+//robot is 17 inches
+        ForwardBackward(0.5, 32, 1);
+        armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
+        wrist.setPosition(1);
+        armMotor.setTargetPosition(ARM_WINCH_ROBOT);
+        wrist.setPosition(0.7);
+        claw.setPosition(1);
+        ForwardBackward(0.5, 7, -1);
+        Right(0.5, 48);
+        ForwardBackward(0.5, 24, -1);
 
         // to get lift and arm positions, steal from teleop ;)
         //for wrist and claw, don't use encoderDrive just do it independently
