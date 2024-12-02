@@ -136,6 +136,8 @@ public class AutoByNetEncoder extends LinearOpMode {
         ForwardBackward(0.5, 5, -1);
         Right(0.5, 48);
         ForwardBackward(0.5, 24, -1);
+        liftMotor.setTargetPosition(0);
+        requestOpModeStop();
 
         // to get lift and arm positions, steal from teleop ;)
         //for wrist and claw, don't use encoderDrive just do it independently
