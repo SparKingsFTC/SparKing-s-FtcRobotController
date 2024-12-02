@@ -136,7 +136,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         ForwardBackward(0.5, 32, 1);
         armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
-        wrist.setPosition(1);
+        wrist.setPosition(0.85);
         claw.setPosition(0);
         wrist.setPosition(0);
         ForwardBackward(0.5, 2, -1);
