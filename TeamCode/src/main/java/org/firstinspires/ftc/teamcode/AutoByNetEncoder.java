@@ -76,6 +76,15 @@ public class AutoByNetEncoder extends LinearOpMode {
     final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
 
+    final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
+
+    final double LIFT_COLLAPSED = (int) 0 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
+
+    double liftPosition = (int) LIFT_COLLAPSED;
+
 
     @Override
     public void runOpMode() {
@@ -137,6 +146,8 @@ public class AutoByNetEncoder extends LinearOpMode {
         Right(0.5, 48);
         ForwardBackward(0.5, 24, -1);
         liftMotor.setTargetPosition(0);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         requestOpModeStop();
 
         // to get lift and arm positions, steal from teleop ;)
