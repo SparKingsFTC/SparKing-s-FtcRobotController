@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 
-@Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
+@Autonomous(name="AutoSpecMiddle", group="Robot")
 
 public class AutoSpecimenMiddle extends LinearOpMode {
 
@@ -135,7 +135,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 //robot is 17 inches
             //never put wrist at 1!! .85 or something
             claw.setPosition(1);
-            ForwardBackward(0.5, 32, 1);
+            ForwardBackward(0.5, 100, 1);
             armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
             wrist.setPosition(0.67);
             wrist.setPosition(0.85);
