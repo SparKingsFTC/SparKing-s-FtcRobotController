@@ -131,23 +131,25 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+        while (opModeIsActive()) {
 //robot is 17 inches
-        //never put wrist at 1!! .85 or something
-        claw.setPosition(1);
-        ForwardBackward(0.5, 32, 1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        wrist.setPosition(0.67);
-        wrist.setPosition(0.85);
-        claw.setPosition(0);
-        wrist.setPosition(0);
-        claw.setPosition(1);
-        ForwardBackward(0.5, 2, -1);
-        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.5, 5, -1);
-        Right(0.5, 48);
-        ForwardBackward(0.5, 24, -1);
-        liftMotorPlacement(0.5, 0);
-        requestOpModeStop();
+            //never put wrist at 1!! .85 or something
+            claw.setPosition(1);
+            ForwardBackward(0.5, 32, 1);
+            armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
+            wrist.setPosition(0.67);
+            wrist.setPosition(0.85);
+            claw.setPosition(0);
+            wrist.setPosition(0);
+            claw.setPosition(1);
+            ForwardBackward(0.5, 2, -1);
+            armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
+            ForwardBackward(0.5, 5, -1);
+            Right(0.5, 48);
+            ForwardBackward(0.5, 24, -1);
+            liftMotorPlacement(0.5, 0);
+            requestOpModeStop();
+        }
 
         // to get lift and arm positions, steal from teleop ;)
         //for wrist and claw, don't use encoderDrive just do it independently
@@ -178,7 +180,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         int newRightBackTarget;
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
             newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int) (inches * COUNTS_PER_INCH * movement);
@@ -219,7 +220,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(500);   // optional pause after each move.
-        }
+
     }
 
 
@@ -232,7 +233,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         int newRightBackTarget;
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
+
 
             // Determine new target position, and pass to motor controller
             newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
@@ -272,7 +273,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(500);   // optional pause after each move.
-        }
+
     }
 
     public void Right(double speed, double inches) {
@@ -284,7 +285,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         int newRightBackTarget;
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
+
 
             // Determine new target position, and pass to motor controller
             newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH  * 1.414);
@@ -324,7 +325,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(500);   // optional pause after each move.
-        }
+
     }
 
 
@@ -332,7 +333,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
+
 
             // Determine new target position, and pass to motor controller
 
@@ -357,7 +358,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(500);   // optional pause after each move.
-        }
+
     }
 
 
@@ -365,7 +366,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
+
 
             // Determine new target position, and pass to motor controller
 
@@ -390,7 +391,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(500);   // optional pause after each move.
-        }
+
 
 
     }
