@@ -205,6 +205,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
+
 
             // Stop all motion;
             leftFrontDrive.setPower(0);
@@ -259,6 +264,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
+
             // Stop all motion;
             leftFrontDrive.setPower(0);
             rightFrontDrive.setPower(0);
@@ -311,6 +321,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
+
             // Stop all motion;
             leftFrontDrive.setPower(0);
             rightFrontDrive.setPower(0);
@@ -348,6 +363,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
             liftMotor.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (liftMotor.isBusy())) {
+
+            }
+
             // Stop all motion;
 
             liftMotor.setPower(0);
@@ -380,6 +400,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             runtime.reset();
 
             armMotor.setPower(Math.abs(speed));
+
+            while (opModeIsActive() &&
+                    (armMotor.isBusy())) {
+
+            };
 
             // Stop all motion;
 
