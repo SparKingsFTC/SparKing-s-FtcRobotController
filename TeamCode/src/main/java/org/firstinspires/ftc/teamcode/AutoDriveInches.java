@@ -31,7 +31,6 @@ public class AutoDriveInches extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
-        intake = hardwareMap.get(CRServo.class, "intake");
         wrist = hardwareMap.get(Servo.class, "wrist");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
