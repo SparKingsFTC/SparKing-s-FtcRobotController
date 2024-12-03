@@ -80,7 +80,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     final double LIFT_COLLAPSED = (int) 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = (int) LIFT_COLLAPSED;
 

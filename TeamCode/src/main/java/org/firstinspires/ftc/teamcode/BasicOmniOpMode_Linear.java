@@ -137,7 +137,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
 
@@ -327,7 +327,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
                 wrist.setPosition(WRIST_FOLDED_IN);
-                sleep(500);
+                sleep(250);
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 //intake.setPower(INTAKE_OFF);
                 liftPosition =LIFT_COLLAPSED;
