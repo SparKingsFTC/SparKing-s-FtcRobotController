@@ -17,7 +17,6 @@ public class AutoDriveInches extends LinearOpMode {
     public DcMotor leftBackDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor armMotor = null;
-    public CRServo intake      = null;
     public Servo wrist       = null;
     public DcMotor  liftMotor = null;
 
@@ -44,7 +43,6 @@ public class AutoDriveInches extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setDirection(DcMotor.Direction.FORWARD);
-        intake.setDirection(CRServo.Direction.FORWARD);
         wrist.setDirection(Servo.Direction.FORWARD);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         waitForStart();
@@ -54,8 +52,8 @@ public class AutoDriveInches extends LinearOpMode {
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         double cir = 3.78*3.14;
-        double rotations= 3/cir;
-        int target= (int)(rotations*1538);
+        double rotations= 10/cir;
+        int target= (int)(rotations*537.7);
         leftFrontDrive.setTargetPosition(target);
         leftBackDrive.setTargetPosition(target);
         rightFrontDrive.setTargetPosition(target);
