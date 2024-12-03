@@ -148,7 +148,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             Right(0.5, 48);
             ForwardBackward(0.5, 24, -1);
             liftMotorPlacement(0.5, 0);
-            requestOpModeStop();
         }
 
         // to get lift and arm positions, steal from teleop ;)
