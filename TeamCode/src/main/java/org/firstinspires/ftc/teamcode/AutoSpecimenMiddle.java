@@ -32,14 +32,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
-
-@Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
+@Autonomous(name="AutoSpecMiddle", group="Robot")
 
 public class AutoSpecimenMiddle extends LinearOpMode {
 
@@ -61,7 +62,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 2150.8 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 3.78 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
@@ -80,7 +81,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     final double LIFT_COLLAPSED = (int) 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
 
     double liftPosition = (int) LIFT_COLLAPSED;
 
@@ -105,6 +106,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ((DcMotorEx) armMotor).setCurrentAlert(5, CurrentUnit.AMPS);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -134,32 +136,30 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
-        ForwardBackward(0.5, 32, 1);
+        sleep(1000);
+        ForwardBackward(0.5, 27.5, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
-        wrist.setPosition(0.85);
+        sleep(3000);
+        wrist.setPosition(0.95);
+        sleep(3000);
         claw.setPosition(0);
+        sleep(3000);
         wrist.setPosition(0);
+        sleep(3000);
         claw.setPosition(1);
-        ForwardBackward(0.5, 2, -1);
+        sleep(3000);
+        ForwardBackward(0.5, 2, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.5, 5, -1);
-        Right(0.5, 48);
-        ForwardBackward(0.5, 24, -1);
+        ForwardBackward(0.5, 5, 1);
+        Left(0.5, 48);
+        ForwardBackward(0.5, 22.5, 1);
         liftMotorPlacement(0.5, 0);
-        requestOpModeStop();
-
-        // to get lift and arm positions, steal from teleop ;)
-        //for wrist and claw, don't use encoderDrive just do it independently
-        //remember that for servos you need to program an extra sleep function
-
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
+        requestOpModeStop();
     }
 
     /*
@@ -204,6 +204,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightFrontDrive.setPower(Math.abs(speed));
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
+
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
 
 
             // Stop all motion;
@@ -259,6 +264,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
+
             // Stop all motion;
             leftFrontDrive.setPower(0);
             rightFrontDrive.setPower(0);
@@ -311,6 +321,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(Math.abs(speed));
             rightBackDrive.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+
+            }
+
             // Stop all motion;
             leftFrontDrive.setPower(0);
             rightFrontDrive.setPower(0);
@@ -348,6 +363,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
             liftMotor.setPower(Math.abs(speed));
 
+            while (opModeIsActive() &&
+                    (liftMotor.isBusy())) {
+
+            }
+
             // Stop all motion;
 
             liftMotor.setPower(0);
@@ -381,9 +401,12 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
             armMotor.setPower(Math.abs(speed));
 
-            // Stop all motion;
+            while (opModeIsActive() &&
+                    (armMotor.isBusy())) {
 
-            armMotor.setPower(0);
+            };
+
+            // Stop all motion;
 
             // Turn off RUN_TO_POSITION
 
