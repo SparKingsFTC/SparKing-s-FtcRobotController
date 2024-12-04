@@ -137,7 +137,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
         sleep(1000);
-        ForwardBackward(0.5, 29, -1);
+        ForwardBackward(0.5, 28, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
         sleep(3000);
