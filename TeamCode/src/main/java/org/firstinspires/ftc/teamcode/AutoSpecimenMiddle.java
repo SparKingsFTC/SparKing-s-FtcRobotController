@@ -32,11 +32,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
 @Autonomous(name="AutoSpecMiddle", group="Robot")
@@ -105,6 +106,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ((DcMotorEx) armMotor).setCurrentAlert(5, CurrentUnit.AMPS);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -135,8 +137,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
         sleep(1000);
-        ForwardBackward(0.5, 32, -1);
-        armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
+        ForwardBackward(0.5, 27.5, -1);
+        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
         sleep(3000);
         wrist.setPosition(0.85);
@@ -148,10 +150,10 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         claw.setPosition(1);
         sleep(3000);
         ForwardBackward(0.5, 2, 1);
-        armMotor.setTargetPosition(ARM_COLLAPSED_INTO_ROBOT);
+        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         ForwardBackward(0.5, 5, 1);
         Left(0.5, 48);
-        ForwardBackward(0.5, 24, 1);
+        ForwardBackward(0.5, 22.5, 1);
         liftMotorPlacement(0.5, 0);
 
         telemetry.addData("Path", "Complete");
