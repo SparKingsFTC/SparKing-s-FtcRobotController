@@ -141,7 +141,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
         sleep(3000);
-        wrist.setPosition(0.95);
+        wrist.setPosition(0.85);
         sleep(3000);
         claw.setPosition(0);
         sleep(3000);
@@ -407,6 +407,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             };
 
             // Stop all motion;
+
+            armMotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
 
