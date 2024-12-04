@@ -50,33 +50,48 @@ public class AutoDriveInches extends LinearOpMode {
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+        double inch;
+        double speed;
         double cir = 3.78*3.14;
-        double rotations= 10/cir;
+        double rotations= inch/cir;
         int target= (int)(rotations*537.7);
-        leftFrontDrive.setTargetPosition(target);
-        leftBackDrive.setTargetPosition(target);
-        rightFrontDrive.setTargetPosition(target);
-        rightBackDrive.setTargetPosition(target);
 
-        leftFrontDrive.setPower(0.5);
-        leftBackDrive.setPower(0.5);
-        rightFrontDrive.setPower(0.5);
-        rightBackDrive.setPower(0.5);
+    public void armMotorPlacement(double speed, double inch) {
 
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while( leftBackDrive.isBusy() || leftFrontDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy()){
-            telemetry.addData("path complete" , "done");
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+
+            leftFrontDrive.setTargetPosition(target);
+            leftBackDrive.setTargetPosition(target);
+            rightFrontDrive.setTargetPosition(target);
+            rightBackDrive.setTargetPosition(target);
+
+            leftFrontDrive.setPower(0.5);
+            leftBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(0.5);
+
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            while( leftBackDrive.isBusy() || leftFrontDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy()){
+                telemetry.addData("path complete" , "done");
+            }
+
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
         }
 
-        leftFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
+
     }
 }
+
+
+
 
