@@ -126,6 +126,45 @@ public class AutoDriveInches extends LinearOpMode {
 
         }
     }
+    public void Left(double speed, double inches) {
+
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+
+            leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            double cir = 3.78 * 3.14;
+            double rotations = inches / cir;
+            int target = (int) (rotations * 537.7);
+            leftFrontDrive.setTargetPosition((int) (target * 1.414));
+            leftBackDrive.setTargetPosition((int) (target *-1* 1.414));
+            rightFrontDrive.setTargetPosition((int) (target *1* 1.414));
+            rightBackDrive.setTargetPosition((int) (target  * 1.414));
+
+            leftFrontDrive.setPower(Math.abs(speed));
+            rightFrontDrive.setPower(Math.abs(speed));
+            leftBackDrive.setPower(Math.abs(speed));
+            rightBackDrive.setPower(Math.abs(speed));
+
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            while (leftBackDrive.isBusy() || leftFrontDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy() && opModeIsActive()) {
+                telemetry.addData("turning, distance: ", inches);
+            }
+
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+
+        }
+    }
 }
 /*
 
