@@ -55,9 +55,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  * Holonomic drives provide the ability for the robot to move in three axes (directions) simultaneously.
  * Each motion axis is controlled by one Joystick axis.
  *
- * 1) Axial:    Driving forward and backward               Left-joystick Forward/Backward
- * 2) Lateral:  Strafing right and left                     Left-joystick Right and Left
- * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
+ * 1) Axial:    Driving forward and backward               Right-joystick Forward/Backward
+ * 2) Lateral:  Strafing right and left                     Right-joystick Right and Right
+ * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Right
  *
  * This code is written assuming that the right-side motors need to be reversed for the robot to drive forward.
  * When you first test your robot, if it moves backward when you push the left stick forward, then you must flip
