@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 
-@Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
+@Autonomous(name="AutoSpecMiddle", group="Robot")
 
 public class AutoSpecimenMiddle extends LinearOpMode {
 
@@ -160,6 +160,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
+        requestOpModeStop();
     }
 
     /*
