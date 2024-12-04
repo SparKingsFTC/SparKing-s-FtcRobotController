@@ -61,7 +61,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 1538 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 3.78 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
@@ -134,28 +134,25 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
-        ForwardBackward(0.5, 32, 1);
+        sleep(1000);
+        ForwardBackward(0.5, 32, -1);
         armMotor.setTargetPosition(ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
+        sleep(3000);
         wrist.setPosition(0.85);
+        sleep(3000);
         claw.setPosition(0);
+        sleep(3000);
         wrist.setPosition(0);
+        sleep(3000);
         claw.setPosition(1);
-        ForwardBackward(0.5, 2, -1);
+        sleep(3000);
+        ForwardBackward(0.5, 2, 1);
         armMotor.setTargetPosition(ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.5, 5, -1);
-        Right(0.5, 48);
-        ForwardBackward(0.5, 24, -1);
+        ForwardBackward(0.5, 5, 1);
+        Left(0.5, 48);
+        ForwardBackward(0.5, 24, 1);
         liftMotorPlacement(0.5, 0);
-        requestOpModeStop();
-
-        // to get lift and arm positions, steal from teleop ;)
-        //for wrist and claw, don't use encoderDrive just do it independently
-        //remember that for servos you need to program an extra sleep function
-
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
