@@ -153,7 +153,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         ForwardBackward(0.5, 5, 1);
         Left(0.5, 48);
-        ForwardBackward(0.5, 23, 1);
+        ForwardBackward(0.5, 22.5, 1);
         liftMotorPlacement(0.5, 0);
 
         telemetry.addData("Path", "Complete");
