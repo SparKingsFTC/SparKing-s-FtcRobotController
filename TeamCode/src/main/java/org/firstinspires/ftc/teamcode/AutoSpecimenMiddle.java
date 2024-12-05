@@ -74,6 +74,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
                     * 1/360.0; // we want ticks per degree, not per rotation
     final int ARM_COLLAPSED_INTO_ROBOT  = 10;
     final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
+    final int ARM_SCORE_SPECIMEN2        = (int)(30 * ARM_TICKS_PER_DEGREE);
+
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
 
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
@@ -136,25 +138,25 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
-        sleep(1000);
-        ForwardBackward(0.5, 27.5, -1);
+        ForwardBackward(0.6, 27.5, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         wrist.setPosition(0.67);
-        sleep(3000);
+        sleep(1000);
         wrist.setPosition(0.85);
-        sleep(3000);
+        sleep(1000);
+        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
+        ForwardBackward(0.75, 1, -1);
         claw.setPosition(0);
-        sleep(3000);
+        sleep(1000);
         wrist.setPosition(0);
-        sleep(3000);
         claw.setPosition(1);
-        sleep(3000);
-        ForwardBackward(0.5, 2, 1);
+        sleep(1000);
+        ForwardBackward(0.75, 2, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.5, 5, 1);
-        Left(0.5, 48);
-        ForwardBackward(0.5, 22.5, 1);
-        liftMotorPlacement(0.5, 0);
+        ForwardBackward(0.75, 5, 1);
+        Left(0.75, 46);
+        ForwardBackward(0.75, 22.5, 1);
+        liftMotorPlacement(0.75, 0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
