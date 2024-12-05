@@ -74,7 +74,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
                     * 1/360.0; // we want ticks per degree, not per rotation
     final int ARM_COLLAPSED_INTO_ROBOT  = 10;
     final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
-    final int ARM_SCORE_SPECIMEN2        = (int)(30 * ARM_TICKS_PER_DEGREE);
+    final int ARM_SCORE_SPECIMEN2        = (int)(25 * ARM_TICKS_PER_DEGREE);
 
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
 
