@@ -138,14 +138,16 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
         claw.setPosition(1);
-        ForwardBackward(0.6, 27.5, -1);
+        ForwardBackward(0.5, 27, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
+        ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
         sleep(1000);
         wrist.setPosition(0.85);
         sleep(1000);
+
         armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
-        ForwardBackward(0.75, 1, -1);
+        ForwardBackward(1, 2, -1);
         claw.setPosition(0);
         sleep(1000);
         wrist.setPosition(0);
@@ -225,7 +227,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
+               // optional pause after each move.
         }
     }
 
@@ -283,7 +285,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
         }
     }
 
@@ -340,7 +341,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
         }
     }
 
