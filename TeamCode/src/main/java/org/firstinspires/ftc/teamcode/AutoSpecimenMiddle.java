@@ -154,8 +154,9 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         sleep(1000);
         ForwardBackward(0.75, 2, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        claw.setPosition(1);
         ForwardBackward(0.75, 5, 1);
+        claw.setPosition(1);
+
         Left(0.75, 46);
         ForwardBackward(0.75, 22.5, 1);
         liftMotorPlacement(0.75, 0);
