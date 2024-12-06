@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
-@Autonomous(name="AutoSpecMiddle", group="Robot")
+@Autonomous(name="NetAscent", group="Robot")
 
 public class NetAscent extends LinearOpMode {
 
@@ -75,7 +75,7 @@ public class NetAscent extends LinearOpMode {
     final int ARM_COLLAPSED_INTO_ROBOT  = 10;
     final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
-    final int LEVEL_ONE_ASCENT_ARM       = (int)(140 * ARM_TICKS_PER_DEGREE);
+    final int LEVEL_ONE_ASCENT_ARM       = (int)(105 * ARM_TICKS_PER_DEGREE);
 
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
@@ -141,17 +141,16 @@ public class NetAscent extends LinearOpMode {
         //space between 9
         //sample is 1.5 by 3.5
         //never put wrist at 1!! .85 or something
-        ForwardBackward(0.5, 3, 1);
-        Left(0.5, 54);
-        ForwardBackward(0.5, (3 + 1.5 + 4.5), -1);
+        ForwardBackward(0.5, 2, 1);
+        Left(0.5, 50);
+        ForwardBackward(0.5, (2 + 1.5 + 7), -1);
         Right(0.5, 51.5);
         Left(0.5, 51.5);
-        ForwardBackward(0.5, 9, -1);
-        Right(0.5, (1.5 + 4.5 + 9));
-        Left(0.5, (1.5 + 4.5 + 9));
-        ForwardBackward(0.5, (3 + 1.5 + 4.5 + 9), 1);
-        Left(0.5, 24);
-        ForwardBackward(0.5, 31, 1);
+        ForwardBackward(0.5, 15, -1);
+        Right(0.5, 51.5);
+        Left(0.5, 51.5);
+        ForwardBackward(0.5, (2 + 1.5 + 5 + 9), 1);
+        ForwardBackward(0.5, 20, 1);
         armMotorPlacement(0.5, LEVEL_ONE_ASCENT_ARM);
 
 
