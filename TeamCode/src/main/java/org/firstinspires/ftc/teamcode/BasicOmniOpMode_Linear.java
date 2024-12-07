@@ -117,6 +117,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
+    final int ARM_SCORE_SPECIMEN2        = (int)(25 * ARM_TICKS_PER_DEGREE);
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
    /* final double INTAKE_COLLECT    = -1.0;
@@ -278,9 +279,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 intake.setPower(INTAKE_DEPOSIT);
             }*/
 
-            if(gamepad1.b){
-                wrist.setPosition(0);
-            }
+
             if(gamepad1.a){
                 wrist.setPosition(0.76);
             }
@@ -290,11 +289,16 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             if(gamepad1.y){
                 wrist.setPosition(0.5);
             }
-            if (gamepad2.dpad_up) {
-                claw.setPosition(claw_OPEN);
+            if (gamepad1.dpad_up) {
+                if(claw_OPEN != 0) {
+                    claw.setPosition(claw_OPEN);
+                }
+                if(claw_CLOSE != 0) {
+                    claw.setPosition(claw_CLOSE);
+                }
             }
-            else if (gamepad2.dpad_down) {
-                claw.setPosition(claw_CLOSE);
+            if(gamepad1.dpad_left){
+                armPosition = ARM_SCORE_SPECIMEN2;
             }
 
 
@@ -316,14 +320,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
               //  armPosition = ARM_CLEAR_BARRIER;
             //}
 
-            else if (gamepad2.b){
+            else if (gamepad1.b){
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
                 //wrist.setPosition();
             }
 
-            else if (gamepad2.a) {
+            else if (gamepad1.dpad_down) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
                 wrist.setPosition(WRIST_FOLDED_IN);
@@ -334,15 +338,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
             }
-            if (gamepad1.right_bumper){
-                armPosition = armPosition + 25;
-            }
-            if (gamepad1.left_bumper){
-                armPosition = armPosition - 25;
-            }
-            else if (gamepad2.x){
+            else if (gamepad1.dpad_right){
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
              armPosition = ARM_SCORE_SPECIMEN;
+             wrist.setPosition(0.67);
 
             }
 
@@ -437,10 +436,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             we are only incrementing it a small amount each cycle.
              */
 
-            if (gamepad2.right_bumper){
+            if (gamepad1.right_bumper){
                 liftPosition += 2800 * cycletime;
             }
-            else if (gamepad2.left_bumper){
+            else if (gamepad1.left_bumper){
                 liftPosition -= 2800 * cycletime;
                 wrist.setPosition(0);
             }
