@@ -40,9 +40,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
-@Autonomous(name="AutoSpecMiddle", group="Robot")
+@Autonomous(name="NetAscent", group="Robot")
 
-public class AutoSpecimenMiddle extends LinearOpMode {
+public class NetAscent extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor leftFrontDrive = null;
@@ -74,9 +74,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
                     * 1/360.0; // we want ticks per degree, not per rotation
     final int ARM_COLLAPSED_INTO_ROBOT  = 10;
     final int ARM_SCORE_SPECIMEN        = (int)(60 * ARM_TICKS_PER_DEGREE);
-    final int ARM_SCORE_SPECIMEN2        = (int)(25 * ARM_TICKS_PER_DEGREE);
-
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
+    final int LEVEL_ONE_ASCENT_ARM       = (int)(105 * ARM_TICKS_PER_DEGREE);
 
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
@@ -84,6 +83,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
+
 
     double liftPosition = (int) LIFT_COLLAPSED;
 
@@ -136,30 +136,23 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 //robot is 17 inches
+        //not wheels is 9
+        //wheel must be 4
+        //space between 9
+        //sample is 1.5 by 3.5
         //never put wrist at 1!! .85 or something
-        claw.setPosition(1);
-        ForwardBackward(0.5, 27, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        ForwardBackward(0.5,1, -1);
-        wrist.setPosition(0.67);
-        sleep(1000);
-        wrist.setPosition(0.85);
-        sleep(1000);
+        ForwardBackward(0.5, 2, 1);
+        Left(0.5, 50);
+        ForwardBackward(0.5, (2 + 1.5 + 7), -1);
+        Right(0.5, 51.5);
+        Left(0.5, 51.5);
+        ForwardBackward(0.5, 15, -1);
+        Right(0.5, 51.5);
+        Left(0.5, 51.5);
+        ForwardBackward(0.5, (2 + 1.5 + 5 + 9), 1);
+        ForwardBackward(0.5, 20, 1);
+        armMotorPlacement(0.5, LEVEL_ONE_ASCENT_ARM);
 
-        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
-        ForwardBackward(1, 2, -1);
-        claw.setPosition(0);
-        sleep(1000);
-        wrist.setPosition(0);
-        sleep(1000);
-        ForwardBackward(0.75, 2, 1);
-        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 5, 1);
-        claw.setPosition(1);
-
-        Left(0.75, 46);
-        ForwardBackward(0.75, 22.5, 1);
-        liftMotorPlacement(0.75, 0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -228,7 +221,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-               // optional pause after each move.
+            sleep(500);   // optional pause after each move.
         }
     }
 
@@ -286,6 +279,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+            sleep(500);   // optional pause after each move.
         }
     }
 
@@ -342,6 +336,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+            sleep(500);   // optional pause after each move.
         }
     }
 
