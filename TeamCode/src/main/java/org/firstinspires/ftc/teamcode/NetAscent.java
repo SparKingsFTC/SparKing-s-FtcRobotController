@@ -150,8 +150,6 @@ public class NetAscent extends LinearOpMode {
         Right(0.5, 51.5);
         Left(0.5, 51.5);
         ForwardBackward(0.5, (2 + 1.5 + 5 + 9), 1);
-        ForwardBackward(0.5, 20, 1);
-        armMotorPlacement(0.5, LEVEL_ONE_ASCENT_ARM);
 
 
         telemetry.addData("Path", "Complete");
@@ -221,7 +219,6 @@ public class NetAscent extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
         }
     }
 
@@ -279,7 +276,6 @@ public class NetAscent extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
         }
     }
 
@@ -336,7 +332,6 @@ public class NetAscent extends LinearOpMode {
             leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(500);   // optional pause after each move.
         }
     }
 
