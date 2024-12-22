@@ -335,10 +335,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
             if (gamepad1.right_bumper){
-                armPosition = armPosition + 25;
+                armPosition = armPosition + 18;
             }
             if (gamepad1.left_bumper){
-                armPosition = armPosition - 25;
+                armPosition = armPosition - 18;
             }
             else if (gamepad2.x){
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
