@@ -341,7 +341,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad1.dpad_right){
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
              armPosition = ARM_SCORE_SPECIMEN;
-             wrist.setPosition(0.67);
+             wrist.setPosition(1);
 
             }
 
