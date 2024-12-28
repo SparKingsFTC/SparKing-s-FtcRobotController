@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,9 +17,11 @@ public class LinearServo extends LinearOpMode {
     static final double MAX_POS = 0.9;
     static final double MIN_POS = 0.1;
     ServoImplEx servo;
+    PwmControl.PwmRange range = new PwmControl.PwmRange(553, 2425)
     @Override
     public void runOpMode() {
         servo = hardwareMap.get(ServoImplEx.class, "linearservo");
+        servo.setPwmRange(range);
         telemetry.update();
         waitForStart();
         while (opModeIsActive()){
