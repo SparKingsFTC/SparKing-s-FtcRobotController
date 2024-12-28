@@ -18,7 +18,7 @@ public class LinearServo extends LinearOpMode {
     ServoImplEx servo;
     @Override
     public void runOpMode() {
-        servo = hardwareMap.get(ServoImplEx.class, "");
+        servo = hardwareMap.get(ServoImplEx.class, "linearservo");
         telemetry.update();
         waitForStart();
         while (opModeIsActive()){
