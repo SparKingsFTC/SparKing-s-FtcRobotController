@@ -17,7 +17,7 @@ public class LinearServo extends LinearOpMode {
     static final double MAX_POS = 0.9;
     static final double MIN_POS = 0.1;
     ServoImplEx servo;
-    PwmControl.PwmRange range = new PwmControl.PwmRange(553, 2425)
+    PwmControl.PwmRange range = new PwmControl.PwmRange(553, 2425);
     @Override
     public void runOpMode() {
         servo = hardwareMap.get(ServoImplEx.class, "linearservo");
