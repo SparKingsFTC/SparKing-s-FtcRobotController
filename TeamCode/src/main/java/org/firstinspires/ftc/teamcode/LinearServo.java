@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 @TeleOp(name="Linear Servo Testing", group="Linear OpMode")
 public class LinearServo extends LinearOpMode {
     static final double MAX_POS = 1.0;
-    static final double MIN_POS = 0.0;
+    static final double MIN_POS = 0.00;
     ServoImplEx servo;
     PwmControl.PwmRange range = new PwmControl.PwmRange(900, 2100);
     @Override
@@ -26,9 +26,9 @@ public class LinearServo extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()){
             servo.setPosition(MAX_POS);
-            sleep(4000);
+            sleep(20000);
             servo.setPosition(MIN_POS);
-            sleep(4000);
+            sleep(20000);
         }
     }
 }
