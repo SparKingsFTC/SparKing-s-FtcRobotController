@@ -2,18 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-@TeleOp(name="Linear Servo Testing - up", group="Linear OpMode")
-public class LinearServo extends LinearOpMode {
+@TeleOp(name="Linear Servo Testing - down ", group="Linear OpMode")
+public class LinearServodown extends LinearOpMode {
     static final double MAX_POS = 1.0;
     static final double MIN_POS = 0.0;
     ServoImplEx servo;
@@ -25,7 +18,7 @@ public class LinearServo extends LinearOpMode {
         telemetry.update();
         waitForStart();
         while (opModeIsActive()){
-            servo.setPosition(MAX_POS);
+            servo.setPosition(MIN_POS);
             sleep(20000);
         }
     }
