@@ -170,7 +170,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
-
+        linearServo = hardwareMap.get(ServoImplEx.class, "linearservo");
         claw  = hardwareMap.get(Servo.class, "claw");
 
 
