@@ -171,6 +171,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         linearServo = hardwareMap.get(ServoImplEx.class, "linearservo");
+        linearServo.setPwmRange(range);
         claw  = hardwareMap.get(Servo.class, "claw");
 
 
@@ -375,10 +376,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              armPosition = ARM_SCORE_SPECIMEN;
 
             }
-            if (gamepad2.start){
+            if (gamepad2.dpad_right){
                 linearServo.setPosition(MAX_POS);
 
-            } else if (gamepad2.back) {
+            } else if (gamepad2.dpad_left) {
                 linearServo.setPosition(MIN_POS);
             }
 
@@ -513,9 +514,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
 
-            if (((DcMotorEx) armMotor).isOverCurrent()){
-                telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
-            }
+
             // Show the elapsed game time and wheel power.
 
 
