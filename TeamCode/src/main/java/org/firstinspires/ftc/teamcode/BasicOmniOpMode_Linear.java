@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -87,7 +88,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     public Servo    claw  = null;
     static final double MAX_POS = 1.0;
     static final double MIN_POS = 0.0;
-    public ServoImplEx servo;
+    public ServoImplEx linearServo;
+    PwmControl.PwmRange range = new PwmControl.PwmRange(900, 2100);
+
 
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
@@ -371,6 +374,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
              armPosition = ARM_SCORE_SPECIMEN;
 
+            }
+            if (gamepad2.start){
+                linearServo.setPosition(MAX_POS);
+
+            } else if (gamepad2.back) {
+                linearServo.setPosition(MIN_POS);
             }
 
             //else if (gamepad2.dpad_up){
