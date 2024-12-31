@@ -111,6 +111,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
+    final double ARMZERO = 0;
     final double ARM_COLLECT               = 20 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
@@ -125,7 +126,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 */
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
     final double WRIST_FOLDED_IN   = 0;
-    final double WRIST_FOLDED_OUT  = 0.72;
+    final double WRIST_FOLDED_OUT  = 0.78;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -135,7 +136,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  315 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
@@ -282,7 +283,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(0);
             }
             if(gamepad1.a){
-                wrist.setPosition(0.76);
+                wrist.setPosition(WRIST_FOLDED_OUT);
             }
             if(gamepad1.x){
                 wrist.setPosition(0.67);
@@ -300,14 +301,15 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
 
-            //if(gamepad2.x){
+            if(gamepad2.y){
                 /* This is the intaking/collecting arm position */
-              //  armPosition = ARM_COLLECT;
-                //liftPosition = LIFT_COLLECT; // is this what we want?
-                //wrist.setPosition(WRIST_FOLDED_OUT);
+                armPosition = ARM_COLLAPSED_INTO_ROBOT;
+                liftPosition = LIFT_COLLECT; // is this what we want?
+                wrist.setPosition(WRIST_FOLDED_OUT);
+                armPosition = ARMZERO;
                 //intake.setPower(INTAKE_COLLECT);
 
-            //}
+            }
 
             //else if (gamepad2.y){
                     /* This is about 20° up from the collecting position to clear the barrier
