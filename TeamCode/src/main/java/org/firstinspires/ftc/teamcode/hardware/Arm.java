@@ -29,6 +29,7 @@ public class Arm {
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public class ArmDown implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {

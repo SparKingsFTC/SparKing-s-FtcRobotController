@@ -17,9 +17,9 @@ public class BasicAutonomous extends LinearOpMode {
     public DcMotor leftBackDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor armMotor = null;
-    public CRServo intake      = null;
-    public Servo wrist       = null;
-    public DcMotor  liftMotor = null;
+    public CRServo intake = null;
+    public Servo   wrist = null;
+    public DcMotor liftMotor = null;
 
 
     @Override

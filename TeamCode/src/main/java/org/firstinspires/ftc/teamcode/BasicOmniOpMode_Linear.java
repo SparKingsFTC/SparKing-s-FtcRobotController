@@ -297,9 +297,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 claw.setPosition(claw_CLOSE);
             }
 
-
-
-
             //if(gamepad2.x){
                 /* This is the intaking/collecting arm position */
               //  armPosition = ARM_COLLECT;
