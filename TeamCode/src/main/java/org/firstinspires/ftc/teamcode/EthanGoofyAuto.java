@@ -447,7 +447,7 @@ public class EthanGoofyAuto extends LinearOpMode {
             armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
             liftPosition = LIFT_COLLECT; // is this what we want?
             wrist.setPosition(WRIST_FOLDED_OUT);
-            armMotorPlacement(0.5,ARMZERO);
+            armMotorPlacement(0.25,ARMZERO);
             //intake.setPower(INTAKE_COLLECT);
 
         }
