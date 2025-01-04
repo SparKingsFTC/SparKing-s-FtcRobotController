@@ -317,7 +317,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             //}
 
             else if (gamepad2.b){
-                /* This is the correct height to score the sample in the LOW BASKET */
+                /* This is the correct Height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
                 //wrist.setPosition();
