@@ -439,18 +439,29 @@ public class EthanGoofyAuto extends LinearOpMode {
 
 
 
-
-
+//_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+       /*
         if(gamepad2.y){ //this is my goofy code eeeeee
-            /* This is the intaking/collecting arm position */
+            //This is the intaking/collecting arm position
             wrist.setPosition(0);
             armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
             liftPosition = LIFT_COLLECT; // is this what we want?
             wrist.setPosition(WRIST_FOLDED_OUT);
             armMotorPlacement(0.25,ARMZERO);
             //intake.setPower(INTAKE_COLLECT);
+            }
+       */
+//_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-        }
+
+
+
+
+
+
+
+
+
 
     }
 }
