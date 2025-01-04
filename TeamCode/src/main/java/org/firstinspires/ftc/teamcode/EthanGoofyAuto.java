@@ -79,7 +79,8 @@ public class EthanGoofyAuto extends LinearOpMode {
     final int ARM_WINCH_ROBOT           = (int)(10 * ARM_TICKS_PER_DEGREE);
     final double ARM_SCORE_SAMPLE_IN_HIGH   = 90 * ARM_TICKS_PER_DEGREE;
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
-
+    final int ARMZERO = 0;
+    final double WRIST_FOLDED_OUT  = 0.78;
     final double LIFT_COLLAPSED = (int) 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
@@ -419,12 +420,34 @@ public class EthanGoofyAuto extends LinearOpMode {
 
             sleep(500);   // optional pause after each move.
         }
-        if(gamepad2.y){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if(gamepad2.y){ //this is my goofy code eeeeee
             /* This is the intaking/collecting arm position */
-            armPosition = ARM_COLLAPSED_INTO_ROBOT;
+            wrist.setPosition(0);
+            armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
             liftPosition = LIFT_COLLECT; // is this what we want?
             wrist.setPosition(WRIST_FOLDED_OUT);
-            armPosition = ARMZERO;
+            armMotorPlacement(0.5,ARMZERO);
             //intake.setPower(INTAKE_COLLECT);
 
         }
