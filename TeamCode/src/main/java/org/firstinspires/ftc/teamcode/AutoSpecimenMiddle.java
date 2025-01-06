@@ -148,19 +148,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
                 rightBackDrive.getCurrentPosition());
         telemetry.update();
         //STOPPED HERE
-        while (opModeIsActive()){
 
-            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
-
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
-            telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", angularVelocity.zRotationRate);
-            telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", angularVelocity.xRotationRate);
-            telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", angularVelocity.yRotationRate);
-            telemetry.update();
-        }
 
         imu.initialize(parameters);
 
@@ -208,6 +196,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
+
 
     public void ForwardBackward(double speed, double inches, double movement) {
         int newLeftFrontTarget;
@@ -464,6 +453,12 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightFrontDrive.setPower(-speed);
             leftBackDrive.setPower(speed);
             rightBackDrive.setPower(-speed);
+        }
+        while(degreeTarget == robotDegrees){
+            leftFrontDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightBackDrive.setPower(0);
         }
     }
 }
