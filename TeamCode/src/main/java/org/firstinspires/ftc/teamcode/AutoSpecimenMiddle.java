@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -39,12 +41,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -66,7 +65,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     public DcMotor  liftMotor = null;
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
-
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -100,13 +98,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
 
     double liftPosition = (int) LIFT_COLLAPSED;
+    IMU imu;
 
-    BNO055IMU imu;
-    Orientation angles;
-    Acceleration gravity;
     @Override
-    public void runOpMode() {
-        initGyro();
+    public void runOpMode() throws InterruptedException {
+
         // Initialize the drive system variables.
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
@@ -116,7 +112,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         wrist  = hardwareMap.get(Servo.class, "wrist");
         claw = hardwareMap.get(Servo.class, "claw");
-
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -148,14 +148,27 @@ public class AutoSpecimenMiddle extends LinearOpMode {
                 rightBackDrive.getCurrentPosition());
         telemetry.update();
         //STOPPED HERE
+        while (opModeIsActive()){
+
+            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
+
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
+            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
+            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+            telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", angularVelocity.zRotationRate);
+            telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", angularVelocity.xRotationRate);
+            telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", angularVelocity.yRotationRate);
+            telemetry.update();
+        }
+
+        imu.initialize(parameters);
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-
-        //robot is 17 inches
+//robot is 17 inches
         //never put wrist at 1!! .85 or something
-        /*claw.setPosition(1);
-
+        claw.setPosition(1);
         ForwardBackward(0.5, 27, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
@@ -181,10 +194,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-        sleep(1000)
-        ;  // pause to display final telemetry message.
-         */
-        turnWithGyro(90,1);
+        sleep(1000);  // pause to display final telemetry message.
         requestOpModeStop();
     }
 
@@ -252,6 +262,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             // optional pause after each move.
         }
     }
+
 
     public void Left(double speed, double inches) {
 
@@ -442,160 +453,15 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
 
     }
-    public void turnWithGyro(double degrees, double speedDirection){
-        //<editor-fold desc="Initialize">
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double yaw = -angles.firstAngle;//make this negative
-        telemetry.addData("Speed Direction", speedDirection);
-        telemetry.addData("Yaw", yaw);
-        telemetry.update();
-        //
-        telemetry.addData("stuff", speedDirection);
-        telemetry.update();
-        //
-        double first;
-        double second;
-        //</editor-fold>
-        //
-        if (speedDirection > 0){//set target positions
-            //<editor-fold desc="turn right">
-            if (degrees > 10){
-                first = (degrees - 10) + devertify(yaw);
-                second = degrees + devertify(yaw);
-            }else{
-                first = devertify(yaw);
-                second = degrees + devertify(yaw);
-            }
-            //</editor-fold>
-        }else{
-            //<editor-fold desc="turn left">
-            if (degrees > 10){
-                first = devertify(-(degrees - 10) + devertify(yaw));
-                second = devertify(-degrees + devertify(yaw));
-            }else{
-                first = devertify(yaw);
-                second = devertify(-degrees + devertify(yaw));
-            }
-            //
-            //</editor-fold>
+    public void turnGyro( double speed, int howmanydegrees){
+        YawPitchRollAngles e = imu.getRobotYawPitchRollAngles();
+        int robotDegrees = (int) e.getYaw(AngleUnit.DEGREES);
+        int degreeTarget = robotDegrees + howmanydegrees;
+        while(howmanydegrees != robotDegrees){
+            leftFrontDrive.setPower(0.4);
+            rightFrontDrive.setPower(-0.4);
+            leftBackDrive.setPower(-0.4);
+            rightBackDrive.setPower(0.4);
         }
-        //
-        //<editor-fold desc="Go to position">
-        Double firsta = convertify(first - 5);//175
-        Double firstb = convertify(first + 5);//-175
-        //
-        turnWithEncoder(speedDirection);
-        //
-        if (Math.abs(firsta - firstb) < 11) {
-            while (!(firsta < yaw && yaw < firstb) && opModeIsActive()) {//within range?
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-                yaw = -angles.firstAngle;
-                telemetry.addData("Position", yaw);
-                telemetry.addData("first before", first);
-                telemetry.addData("first after", convertify(first));
-                telemetry.update();
-            }
-        }else{
-            //
-            while (!((firsta < yaw && yaw < 180) || (-180 < yaw && yaw < firstb)) && opModeIsActive()) {//within range?
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-                yaw = -angles.firstAngle;
-                telemetry.addData("Position", yaw);
-                telemetry.addData("first before", first);
-                telemetry.addData("first after", convertify(first));
-                telemetry.update();
-            }
-        }
-        //
-        Double seconda = convertify(second - 5);//175
-        Double secondb = convertify(second + 5);//-175
-        //
-        turnWithEncoder(speedDirection / 3);
-        //
-        if (Math.abs(seconda - secondb) < 11) {
-            while (!(seconda < yaw && yaw < secondb) && opModeIsActive()) {//within range?
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-                yaw = -angles.firstAngle;
-                telemetry.addData("Position", yaw);
-                telemetry.addData("second before", second);
-                telemetry.addData("second after", convertify(second));
-                telemetry.update();
-            }
-            while (!((seconda < yaw && yaw < 180) || (-180 < yaw && yaw < secondb)) && opModeIsActive()) {//within range?
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-                yaw = -angles.firstAngle;
-                telemetry.addData("Position", yaw);
-                telemetry.addData("second before", second);
-                telemetry.addData("second after", convertify(second));
-                telemetry.update();
-            }
-            leftFrontDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-        }
-        //</editor-fold>
-        //
-        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public double devertify(double degrees){
-        if (degrees < 0){
-            degrees = degrees + 360;
-        }
-        return degrees;
-    }
-    public double convertify(double degrees){
-        if (degrees > 179){
-            degrees = -(360 - degrees);
-        } else if(degrees < -180){
-            degrees = 360 + degrees;
-        } else if(degrees > 360){
-            degrees = degrees - 360;
-        }
-        return degrees;
-    }
-    //
-    /*
-    This function is called at the beginning of the program to activate
-    the IMU Integrated Gyro.
-     */
-    public void initGyro(){
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        //parameters.calibrationDataFile = "GyroCal.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        //
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-    }
-    //
-    /*
-    This function is used in the turnWithGyro function to set the
-    encoder mode and turn.
-     */
-    public void turnWithEncoder(double input){
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //
-        leftFrontDrive.setPower(input);
-        leftBackDrive.setPower(input);
-        rightFrontDrive.setPower(-input);
-        rightBackDrive.setPower(-input);
     }
 }
