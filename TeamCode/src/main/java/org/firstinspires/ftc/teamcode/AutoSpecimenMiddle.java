@@ -175,16 +175,16 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         sleep(250);
         quick();
 
-        ForwardBackward(1,3, 1);
+        ForwardBackward(1,4.5, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 17, 1);
+        ForwardBackward(0.75, 17.5, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         //turnLeft(0.7, 1370);
         turnLeft(0.7, 1399);
 
 
 
-        Right(0.75, 36);
+        Right(0.75, 43);
         wrist.setPosition(0.5);
         sleep(500);
         claw.setPosition(1);
@@ -341,10 +341,10 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH  * 1.414);
-            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
-            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
-            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1.414);
+            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH  * 1);
+            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 );
+            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 );
+            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1);
             leftFrontDrive.setTargetPosition(newLeftFrontTarget);
             rightFrontDrive.setTargetPosition(newRightFrontTarget);
             leftBackDrive.setTargetPosition(newLeftBackTarget);
