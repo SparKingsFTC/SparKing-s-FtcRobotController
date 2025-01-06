@@ -106,7 +106,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     Acceleration gravity;
     @Override
     public void runOpMode() {
-
+        initGyro();
         // Initialize the drive system variables.
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
