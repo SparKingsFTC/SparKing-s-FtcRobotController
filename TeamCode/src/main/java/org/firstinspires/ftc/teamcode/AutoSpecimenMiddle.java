@@ -165,9 +165,9 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         //180 degree turnLeft(0.7, 1370);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
-
+        liftMotorPlacement(0.75, 0);
         claw.setPosition(1);
-        ForwardBackward(0.5, 27, -1);
+        ForwardBackward(0.5, 28, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
@@ -175,7 +175,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         sleep(250);
         quick();
 
-        ForwardBackward(1,2, 1);
+        ForwardBackward(1,3, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         ForwardBackward(0.75, 17, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
@@ -188,7 +188,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         wrist.setPosition(0.5);
         sleep(500);
         claw.setPosition(1);
-        ForwardBackward(0.75, 3, -1);
+        sleep(1000);
+        armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
         ForwardBackward(0.75, 7, 1);
 
         Left(0.75, 36);
