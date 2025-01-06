@@ -33,15 +33,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.PwmControl;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -59,9 +55,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  * Holonomic drives provide the ability for the robot to move in three axes (directions) simultaneously.
  * Each motion axis is controlled by one Joystick axis.
  *
- * 1) Axial:    Driving forward and backward               Right-joystick Forward/Backward
- * 2) Lateral:  Strafing right and left                     Right-joystick Right and Right
- * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Right
+ * 1) Axial:    Driving forward and backward               Left-joystick Forward/Backward
+ * 2) Lateral:  Strafing right and left                     Left-joystick Right and Left
+ * 3) Yaw:      Rotating Clockwise and counter clockwise    Right-joystick Right and Left
  *
  * This code is written assuming that the right-side motors need to be reversed for the robot to drive forward.
  * When you first test your robot, if it moves backward when you push the left stick forward, then you must flip
@@ -83,14 +79,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor armMotor = null;
     public DcMotor  liftMotor = null;
-//    public CRServo  intake = null; //the active intake servo
+    //    public CRServo  intake = null; //the active intake servo
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
-    static final double MAX_POS = 1.0;
-    static final double MIN_POS = 0.0;
-    public ServoImplEx linearServo;
-    PwmControl.PwmRange range = new PwmControl.PwmRange(900, 2100);
-
 
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
@@ -171,8 +162,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
-        linearServo = hardwareMap.get(ServoImplEx.class, "linearservo");
-        linearServo.setPwmRange(range);
+
         claw  = hardwareMap.get(Servo.class, "claw");
 
 
@@ -214,20 +204,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
         /* Make sure that the intake is off, and the wrist is folded in. */
-      //  intake = hardwareMap.get(CRServo.class, "intake");
+        //  intake = hardwareMap.get(CRServo.class, "intake");
 
         //intake.setPower(INTAKE_OFF);
         /* Send telemetry message to signify robot waiting */
         telemetry.addLine("Robot Ready.");
         telemetry.update();
-        // Retrieve the IMU from the hardware map
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -242,31 +224,18 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double y = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double x =  gamepad1.left_stick_x;
-            double rx     =  gamepad1.right_stick_x;
+            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral =  gamepad1.left_stick_x;
+            double yaw     =  gamepad1.right_stick_x;
             //double armMotion = -gamepad2.right_stick_y;
 
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
-
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
-
-
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio,
-            // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double leftFrontPower = (rotY + rotX + rx) / denominator;
-            double leftBackPower = (rotY - rotX + rx) / denominator;
-            double rightFrontPower = (rotY - rotX - rx) / denominator;
-            double rightBackPower = (rotY + rotX - rx) / denominator;
-
+            // Combine the joystick requests for each axis-motion to determine each wheel's power.
+            // Set up a variable for each drive wheel to save the power level for telemetry.
+            double leftFrontPower  = axial + lateral + yaw;
+            double rightFrontPower = axial - lateral - yaw;
+            double leftBackPower   = axial - lateral + yaw;
+            double rightBackPower  = axial + lateral - yaw;
+            //double armPower = armMotion;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -346,7 +315,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                     /* This is about 20° up from the collecting position to clear the barrier
                     Note here that we don't set the wrist position or the intake power when we
                     select this "mode", this means that the intake and wrist will continue what                     they were doing before we clicked left bumper. */
-              //  armPosition = ARM_CLEAR_BARRIER;
+            //  armPosition = ARM_CLEAR_BARRIER;
             //}
 
             else if (gamepad2.b){
@@ -374,15 +343,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 armPosition = armPosition - 25;
             }
             else if (gamepad2.x){
-            /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-             armPosition = ARM_SCORE_SPECIMEN;
+                /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
+                armPosition = ARM_SCORE_SPECIMEN;
 
-            }
-            if (gamepad2.dpad_right){
-                linearServo.setPosition(MAX_POS);
-
-            } else if (gamepad2.dpad_left) {
-                linearServo.setPosition(MIN_POS);
             }
 
             //else if (gamepad2.dpad_up){
@@ -516,7 +479,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             rightBackDrive.setPower(rightBackPower);
 
 
-
+            if (((DcMotorEx) armMotor).isOverCurrent()){
+                telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
+            }
             // Show the elapsed game time and wheel power.
 
 
