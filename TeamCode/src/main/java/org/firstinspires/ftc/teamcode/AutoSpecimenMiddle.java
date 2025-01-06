@@ -33,6 +33,8 @@ import static com.sun.tools.doclint.Entity.pi;
 
 import static java.lang.Math.sin;
 
+import android.icu.text.MeasureFormat;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -159,7 +161,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        // 180urnLeft(0.7, 720);
+        // 180turnLeft(0.7, 720);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
 
@@ -170,22 +172,25 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         wrist.setPosition(0.67);
         sleep(250);
         wrist.setPosition(0.9);
-        sleep(250);
+        sleep(1000);
 
         armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
-        ForwardBackward(1, 2, -1);
         claw.setPosition(0);
-        sleep(1000);
+        sleep(250);
         wrist.setPosition(0);
-        sleep(1000);
-        ForwardBackward(0.75, 2, 1);
+        sleep(250);
+        ForwardBackward(1,2, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 5, 1);
-        claw.setPosition(1);
+        ForwardBackward(0.75, 17, 1);
+        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
+        turnLeft(0.7, 720);
+        sleep(1000);
 
-        Left(0.75, 46);
-        ForwardBackward(0.75, 22.5, 1);
-        liftMotorPlacement(0.75, 0);
+
+        Right(0.75, 46);
+        claw.setPosition(0);
+        //ForwardBackward(0.3, 2, -1);
+        //liftMotorPlacement(0.75, 0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
