@@ -154,7 +154,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        turnGyro(0.2, -180);
+        turnGyro(0.2, -170);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
 
@@ -454,7 +454,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(speed);
             rightBackDrive.setPower(-speed);
         }
-        while(degreeTarget == robotDegrees){
+        if (degreeTarget == robotDegrees){
             leftFrontDrive.setPower(0);
             rightFrontDrive.setPower(0);
             leftBackDrive.setPower(0);
