@@ -161,7 +161,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        // 180turnLeft(0.7, 720);
+        // 45 degree turnLeft(0.7, 720);
+        //180 degree turnLeft(0.7, 1370);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
 
@@ -170,25 +171,27 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
-        sleep(250);
         wrist.setPosition(0.9);
-        sleep(1000);
+        sleep(250);
+        quick();
 
-        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
-        claw.setPosition(0);
-        sleep(250);
-        wrist.setPosition(0);
-        sleep(250);
         ForwardBackward(1,2, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         ForwardBackward(0.75, 17, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        turnLeft(0.7, 720);
-        sleep(1000);
+        //turnLeft(0.7, 1370);
+        turnLeft(0.7, 1399);
 
 
-        Right(0.75, 46);
-        claw.setPosition(0);
+
+        Right(0.75, 36);
+        wrist.setPosition(0.5);
+        sleep(500);
+        claw.setPosition(1);
+        ForwardBackward(0.75, 3, -1);
+        ForwardBackward(0.75, 7, 1);
+
+        Left(0.75, 36);
         //ForwardBackward(0.3, 2, -1);
         //liftMotorPlacement(0.75, 0);
 
@@ -207,7 +210,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
 
-
+    public void quick(){
+        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
+        claw.setPosition(0);
+        wrist.setPosition(0);
+    }
     public void ForwardBackward(double speed, double inches, double movement) {
         int newLeftFrontTarget;
         int newLeftBackTarget;
