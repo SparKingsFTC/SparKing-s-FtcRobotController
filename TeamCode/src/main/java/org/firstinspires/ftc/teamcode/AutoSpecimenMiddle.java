@@ -29,6 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import static com.sun.tools.doclint.Entity.pi;
+
+import static java.lang.Math.sin;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -100,6 +104,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     double liftPosition = (int) LIFT_COLLAPSED;
     IMU imu;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -154,18 +159,18 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        turnGyro(0.2, -170);
+        // 180urnLeft(0.7, 720);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
 
-        /* claw.setPosition(1);
+        claw.setPosition(1);
         ForwardBackward(0.5, 27, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
-        sleep(1000);
-        wrist.setPosition(0.85);
-        sleep(1000);
+        sleep(250);
+        wrist.setPosition(0.9);
+        sleep(250);
 
         armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
         ForwardBackward(1, 2, -1);
@@ -181,7 +186,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         Left(0.75, 46);
         ForwardBackward(0.75, 22.5, 1);
         liftMotorPlacement(0.75, 0);
-        */
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
@@ -444,15 +449,17 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
 
     }
-    public void turnGyro( double speed, int howmanydegrees){
+   /* public void turnGyro( double speed, int howmanydegrees){
         YawPitchRollAngles e = imu.getRobotYawPitchRollAngles();
         int robotDegrees = (int) e.getYaw(AngleUnit.DEGREES);
         int degreeTarget =  howmanydegrees;
-        while(degreeTarget != robotDegrees){
-            leftFrontDrive.setPower(speed);
-            rightFrontDrive.setPower(-speed);
-            leftBackDrive.setPower(speed);
-            rightBackDrive.setPower(-speed);
+        while(opModeIsActive()) {
+            while (degreeTarget != robotDegrees) {
+                leftFrontDrive.setPower(speed);
+                rightFrontDrive.setPower(-speed);
+                leftBackDrive.setPower(speed);
+                rightBackDrive.setPower(-speed);
+            }
         }
         if (degreeTarget == robotDegrees){
             leftFrontDrive.setPower(0);
@@ -460,5 +467,30 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             leftBackDrive.setPower(0);
             rightBackDrive.setPower(0);
         }
+    }*/
+    public void turn(double power, int turnAngle){
+        if (opModeIsActive()) {
+            double turnValue = turnAngle * (3.145926 / 180);
+            double v = power * sin(turnValue + 3.145926 / 4);
+            leftFrontDrive.setPower(v);
+            leftBackDrive.setPower(v);
+            rightFrontDrive.setPower(-v);
+            rightBackDrive.setPower(-v);
+
+        }
+
+        // Convert angle to radians
     }
+    public void turnLeft(double power, long time) {
+        leftFrontDrive.setPower(-power);
+        leftBackDrive.setPower(-power);
+        rightFrontDrive.setPower(power);
+        rightBackDrive.setPower(power);
+        sleep(time);
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
+
 }
