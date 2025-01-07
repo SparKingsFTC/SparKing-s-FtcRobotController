@@ -481,19 +481,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(0);
         }
     }*/
-    public void turn(double power, int turnAngle){
-        if (opModeIsActive()) {
-            double turnValue = turnAngle * (3.145926 / 180);
-            double v = power * sin(turnValue + 3.145926 / 4);
-            leftFrontDrive.setPower(v);
-            leftBackDrive.setPower(v);
-            rightFrontDrive.setPower(-v);
-            rightBackDrive.setPower(-v);
-
-        }
-
-        // Convert angle to radians
-    }
     public void turnLeft(double power, long time) {
         leftFrontDrive.setPower(-power);
         leftBackDrive.setPower(-power);
