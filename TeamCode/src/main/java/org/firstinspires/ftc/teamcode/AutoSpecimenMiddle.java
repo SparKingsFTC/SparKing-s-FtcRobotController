@@ -187,21 +187,29 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         Right(0.75, 43);
         wrist.setPosition(0.5);
         sleep(500);
-        claw.setPosition(1);
+        claw.setPosition(0);
         sleep(1000);
         armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
         ForwardBackward(0.75, 7, 1);
 
         Left(0.75, 36);
         turnLeft(0.7, 1399);
+        liftMotorPlacement(0.75, 0);
         claw.setPosition(1);
-        ForwardBackward(0.5, 24, -1);
+        ForwardBackward(0.5, 28, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
         wrist.setPosition(0.9);
+        sleep(250);
+        quick();
 
-
+        ForwardBackward(1,4.5, 1);
+        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
+        ForwardBackward(0.75, 17.5, 1);
+        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
+        //turnLeft(0.7, 1370);
+        turnLeft(0.7, 1445);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
