@@ -177,26 +177,28 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         ForwardBackward(1,4.5, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 17.5, 1);
+        ForwardBackward(0.75, 15, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         //turnLeft(0.7, 1370);
-        turnLeft(0.7, 1399);
+        turnLeft(0.7, 1440);
         Right(0.75, 43);
         wrist.setPosition(0.5);
         sleep(500);
+        ForwardBackward(0.5, 2, -1);
         claw.setPosition(1);
         sleep(1000);
         armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
         ForwardBackward(0.75, 7, 1);
-        Left(0.75, 36);
-        turnLeft(0.7, 1399);
-        ForwardBackward(0.5, 22, -1);
+        Left(0.75, 35);
+        turnLeft(0.7, 1440);
+        wrist.setPosition(0);
+        ForwardBackward(0.5, 18, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         claw.setPosition(1);
         ForwardBackward(0.5,1, -1);
-        wrist.setPosition(0.9);
+        wrist.setPosition(0.9);sleep
         wrist.setPosition(0.67);
-        ForwardBackward(1,4.5, 1);
+        ForwardBackward(1,4.5, -1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
         wrist.setPosition(0);
         ForwardBackward(0.75, 17.5, 1);
@@ -292,10 +294,10 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
-            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1.414);
-            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1.414);
-            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
+            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1);
+            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH );
+            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH);
+            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1);
             leftFrontDrive.setTargetPosition(newLeftFrontTarget);
             rightFrontDrive.setTargetPosition(newRightFrontTarget);
             leftBackDrive.setTargetPosition(newLeftBackTarget);
