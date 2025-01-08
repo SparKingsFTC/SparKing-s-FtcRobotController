@@ -29,15 +29,33 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import static com.sun.tools.doclint.Entity.pi;
+
+import static java.lang.Math.sin;
+
+import android.icu.text.MeasureFormat;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Autonomous(name="AutoSpecMiddle", group="Robot")
@@ -86,10 +104,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
     final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
 
     double liftPosition = (int) LIFT_COLLAPSED;
+    IMU imu;
 
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
 
         // Initialize the drive system variables.
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
@@ -100,7 +119,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         wrist  = hardwareMap.get(Servo.class, "wrist");
         claw = hardwareMap.get(Servo.class, "claw");
-
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -133,33 +156,52 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         telemetry.update();
         //STOPPED HERE
 
+
+        imu.initialize(parameters);
+
         // Wait for the game to start (driver presses START)
         waitForStart();
+        // 45 degree turnLeft(0.7, 720);
+        //180 degree turnLeft(0.7, 1370);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
+        liftMotorPlacement(0.75, 0);
         claw.setPosition(1);
-        ForwardBackward(0.5, 27, -1);
+        ForwardBackward(0.5, 28, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         ForwardBackward(0.5,1, -1);
         wrist.setPosition(0.67);
-        sleep(1000);
-        wrist.setPosition(0.85);
-        sleep(1000);
+        wrist.setPosition(0.9);
+        sleep(250);
+        quick();
 
-        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
-        ForwardBackward(1, 2, -1);
-        claw.setPosition(0);
-        sleep(1000);
-        wrist.setPosition(0);
-        sleep(1000);
-        ForwardBackward(0.75, 2, 1);
+        ForwardBackward(1,4.5, 1);
         armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 5, 1);
-        claw.setPosition(1);
+        ForwardBackward(0.75, 17.5, 1);
+        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
+        //turnLeft(0.7, 1370);
+        turnLeft(0.7, 1399);
 
-        Left(0.75, 46);
-        ForwardBackward(0.75, 22.5, 1);
-        liftMotorPlacement(0.75, 0);
+
+
+        Right(0.75, 43);
+        wrist.setPosition(0.5);
+        sleep(500);
+        claw.setPosition(1);
+        sleep(1000);
+        armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
+        ForwardBackward(0.75, 7, 1);
+
+        Left(0.75, 36);
+        turnLeft(0.7, 1399);
+        claw.setPosition(1);
+        ForwardBackward(0.5, 24, -1);
+        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
+        ForwardBackward(0.5,1, -1);
+        wrist.setPosition(0.67);
+        wrist.setPosition(0.9);
+
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -176,6 +218,11 @@ public class AutoSpecimenMiddle extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
 
+    public void quick(){
+        armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
+        claw.setPosition(0);
+        wrist.setPosition(0);
+    }
     public void ForwardBackward(double speed, double inches, double movement) {
         int newLeftFrontTarget;
         int newLeftBackTarget;
@@ -301,10 +348,10 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH  * 1.414);
-            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
-            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 * 1.414);
-            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1.414);
+            newLeftFrontTarget = leftFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH  * 1);
+            newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 );
+            newLeftBackTarget = leftBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * -1 );
+            newRightBackTarget = rightBackDrive.getCurrentPosition() + (int)(inches * COUNTS_PER_INCH * 1);
             leftFrontDrive.setTargetPosition(newLeftFrontTarget);
             rightFrontDrive.setTargetPosition(newRightFrontTarget);
             leftBackDrive.setTargetPosition(newLeftBackTarget);
@@ -422,5 +469,35 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
 
     }
-}
+    /* public void turnGyro( double speed, int howmanydegrees){
+         YawPitchRollAngles e = imu.getRobotYawPitchRollAngles();
+         int robotDegrees = (int) e.getYaw(AngleUnit.DEGREES);
+         int degreeTarget =  howmanydegrees;
+         while(opModeIsActive()) {
+             while (degreeTarget != robotDegrees) {
+                 leftFrontDrive.setPower(speed);
+                 rightFrontDrive.setPower(-speed);
+                 leftBackDrive.setPower(speed);
+                 rightBackDrive.setPower(-speed);
+             }
+         }
+         if (degreeTarget == robotDegrees){
+             leftFrontDrive.setPower(0);
+             rightFrontDrive.setPower(0);
+             leftBackDrive.setPower(0);
+             rightBackDrive.setPower(0);
+         }
+     }*/
+    public void turnLeft(double power, long time) {
+        leftFrontDrive.setPower(-power);
+        leftBackDrive.setPower(-power);
+        rightFrontDrive.setPower(power);
+        rightBackDrive.setPower(power);
+        sleep(time);
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
 
+}
