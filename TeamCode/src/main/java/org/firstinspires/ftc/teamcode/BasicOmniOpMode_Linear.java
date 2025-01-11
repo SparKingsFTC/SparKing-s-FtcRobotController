@@ -82,7 +82,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 //    public CRServo  intake = null; //the active intake servo
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
-
+    private DcMotor LeftHang = null;
+    private DcMotor RightHang = null;
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
   To find this, we first need to consider the total gear reduction powering our arm.
@@ -117,6 +118,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
+    final double HANG_TEST           = 0.1  * ARM_TICKS_PER_DEGREE;
+
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
    /* final double INTAKE_COLLECT    = -1.0;
@@ -140,6 +143,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
+    double hangPosition = HANG_TEST;
 
     double cycletime = 0;
     double looptime = 0;
@@ -163,7 +167,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
         claw  = hardwareMap.get(Servo.class, "claw");
-
+        LeftHang = hardwareMap.get(DcMotor.class, "LeftHang");
+        RightHang = hardwareMap.get(DcMotor.class, "RightHang");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -344,6 +349,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
              armPosition = ARM_SCORE_SPECIMEN;
 
+            }
+            else if (gamepad2.dpad_left){
+                    hangPosition = HANG_TEST;
             }
 
             //else if (gamepad2.dpad_up){
