@@ -118,7 +118,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
-    final double HANG_TEST           = 0.1  * ARM_TICKS_PER_DEGREE;
+    final double HANG_TEST           = 5  * ARM_TICKS_PER_DEGREE;
 
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
@@ -143,7 +143,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
-
+    double hangPosotion= 0;
 
     double cycletime = 0;
     double looptime = 0;
@@ -204,6 +204,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         /* testing above^  */
+
+        LeftHang.setTargetPosition(0);
+        LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        RightHang.setTargetPosition(0);
+        RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -351,7 +359,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
             else if (gamepad2.dpad_left){
-                    RightHang.setPower(HANG_TEST);
+                hangPosotion = HANG_TEST;
             }
 
             //else if (gamepad2.dpad_up){
@@ -466,6 +474,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             liftMotor.setTargetPosition((int) (liftPosition));
+            RightHang.setTargetPosition((int) (hangPosotion));
+            LeftHang.setTargetPosition((int) (hangPosotion));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
