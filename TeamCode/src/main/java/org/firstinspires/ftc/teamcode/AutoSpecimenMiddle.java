@@ -251,7 +251,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
 
             }
 
@@ -310,7 +310,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
 
             }
 
@@ -366,7 +366,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
 
             }
 
