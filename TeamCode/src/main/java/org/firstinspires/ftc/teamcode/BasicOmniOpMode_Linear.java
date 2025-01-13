@@ -118,7 +118,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
-    final double HANG_TEST           = 5  * ARM_TICKS_PER_DEGREE;
+    final double HANG_TEST           = 1;
 
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
@@ -185,6 +185,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         wrist  = hardwareMap.get(Servo.class, "wrist");
 
 
@@ -205,13 +207,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         /* testing above^  */
 
-        LeftHang.setTargetPosition(0);
-        LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        RightHang.setTargetPosition(0);
-        RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //LeftHang.setTargetPosition(0);
+        //LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //RightHang.setTargetPosition(0);
+        //RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -358,9 +359,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              armPosition = ARM_SCORE_SPECIMEN;
 
             }
-            else if (gamepad2.dpad_left){
-                hangPosotion = HANG_TEST;
-            }
+           // else if (gamepad2.dpad_left){
+             //   hangPosotion = HANG_TEST;
+            //}
 
             //else if (gamepad2.dpad_up){
             /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
@@ -474,8 +475,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             liftMotor.setTargetPosition((int) (liftPosition));
-            RightHang.setTargetPosition((int) (hangPosotion));
-            LeftHang.setTargetPosition((int) (hangPosotion));
+            //RightHang.setTargetPosition((int) (hangPosotion));
+            //LeftHang.setTargetPosition((int) (hangPosotion));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -486,7 +487,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
             }
 
-
+            RightHang.setPower(-gamepad2.left_stick_y);
+            LeftHang.setPower(gamepad2.left_stick_y);
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
