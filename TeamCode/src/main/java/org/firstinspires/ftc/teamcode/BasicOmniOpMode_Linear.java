@@ -143,7 +143,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
-    double hangPosition = HANG_TEST;
+
 
     double cycletime = 0;
     double looptime = 0;
@@ -351,7 +351,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
             else if (gamepad2.dpad_left){
-                    hangPosition = HANG_TEST;
+                    RightHang.setPower(HANG_TEST);
             }
 
             //else if (gamepad2.dpad_up){
