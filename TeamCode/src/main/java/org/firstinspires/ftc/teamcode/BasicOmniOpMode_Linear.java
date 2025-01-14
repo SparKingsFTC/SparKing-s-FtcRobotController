@@ -79,10 +79,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor armMotor = null;
     public DcMotor  liftMotor = null;
-    public CRServo  intake = null; //the active intake servo
+    //    public CRServo  intake = null; //the active intake servo
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
-
+    private DcMotor LeftHang = null;
+    private DcMotor RightHang = null;
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
   To find this, we first need to consider the total gear reduction powering our arm.
@@ -117,6 +118,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
+    final double HANG_TEST           = 1;
+
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
    /* final double INTAKE_COLLECT    = -1.0;
@@ -124,8 +127,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double INTAKE_DEPOSIT    =  0.5;
 */
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 0.7;
-    final double WRIST_FOLDED_OUT  = 1;
+    final double WRIST_FOLDED_IN   = 0;
+    final double WRIST_FOLDED_OUT  = 0.72;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -137,9 +140,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 580 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
+    double hangPosotion= 0;
 
     double cycletime = 0;
     double looptime = 0;
@@ -147,8 +151,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     double armLiftComp = 0;
 
-    final double claw_OPEN = 1;
-    final double claw_CLOSE= 0;
+    final double claw_OPEN = 0;
+    final double claw_CLOSE= 1;
 
     @Override
     public void runOpMode() {
@@ -162,6 +166,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotor.class, "arm_motor");
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
+        claw  = hardwareMap.get(Servo.class, "claw");
+        LeftHang = hardwareMap.get(DcMotor.class, "LeftHang");
+        RightHang = hardwareMap.get(DcMotor.class, "RightHang");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -178,7 +185,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        RightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wrist  = hardwareMap.get(Servo.class, "wrist");
 
 
         ((DcMotorEx) armMotor).setCurrentAlert(5,CurrentUnit.AMPS);
@@ -196,15 +205,21 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        /* testing above^  */
 
+        //LeftHang.setTargetPosition(0);
+        //LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //RightHang.setTargetPosition(0);
+        //RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
         /* Make sure that the intake is off, and the wrist is folded in. */
-        intake = hardwareMap.get(CRServo.class, "intake");
-        wrist  = hardwareMap.get(Servo.class, "wrist");
+        //  intake = hardwareMap.get(CRServo.class, "intake");
+
         //intake.setPower(INTAKE_OFF);
-        wrist.setPosition(WRIST_FOLDED_IN);
         /* Send telemetry message to signify robot waiting */
         telemetry.addLine("Robot Ready.");
         telemetry.update();
@@ -278,66 +293,76 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }*/
 
             if(gamepad1.b){
-                wrist.setPosition(0.1667);
+                wrist.setPosition(0);
             }
             if(gamepad1.a){
-                wrist.setPosition(1);
+                wrist.setPosition(0.76);
             }
             if(gamepad1.x){
-                wrist.setPosition(0.72);
+                wrist.setPosition(0.67);
             }
-            if (gamepad1.dpad_up) {
+            if(gamepad1.y){
+                wrist.setPosition(0.5);
+            }
+            if (gamepad2.dpad_up) {
                 claw.setPosition(claw_OPEN);
             }
-            else if (gamepad1.dpad_down) {
+            else if (gamepad2.dpad_down) {
                 claw.setPosition(claw_CLOSE);
             }
 
 
 
 
-            if(gamepad2.x){
-                /* This is the intaking/collecting arm position */
-                armPosition = ARM_COLLECT;
-                liftPosition = LIFT_COLLECT; // is this what we want?
-                wrist.setPosition(WRIST_FOLDED_OUT);
-                //intake.setPower(INTAKE_COLLECT);
+            //if(gamepad2.x){
+            /* This is the intaking/collecting arm position */
+            //  armPosition = ARM_COLLECT;
+            //liftPosition = LIFT_COLLECT; // is this what we want?
+            //wrist.setPosition(WRIST_FOLDED_OUT);
+            //intake.setPower(INTAKE_COLLECT);
 
-            }
+            //}
 
-            else if (gamepad2.y){
+            //else if (gamepad2.y){
                     /* This is about 20° up from the collecting position to clear the barrier
                     Note here that we don't set the wrist position or the intake power when we
-                    select this "mode", this means that the intake and wrist will continue what
-                    they were doing before we clicked left bumper. */
-                armPosition = ARM_CLEAR_BARRIER;
-            }
+                    select this "mode", this means that the intake and wrist will continue what                     they were doing before we clicked left bumper. */
+            //  armPosition = ARM_CLEAR_BARRIER;
+            //}
 
             else if (gamepad2.b){
                 /* This is the correct height to score the sample in the LOW BASKET */
                 armPosition = ARM_SCORE_SAMPLE_IN_LOW;
                 //liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                //wrist.setPosition();
             }
 
             else if (gamepad2.a) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
+                wrist.setPosition(WRIST_FOLDED_IN);
+                sleep(250);
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 //intake.setPower(INTAKE_OFF);
                 liftPosition =LIFT_COLLAPSED;
-                ;
-                wrist.setPosition(WRIST_FOLDED_OUT);
+
 
             }
+            if (gamepad1.right_bumper){
+                armPosition = armPosition + 18;
+            }
+            if (gamepad1.left_bumper){
+                armPosition = armPosition - 18;
+            }
+            else if (gamepad2.x){
+                /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
+                armPosition = ARM_SCORE_SPECIMEN;
 
-            //else if (gamepad2.left_bumper){
-            /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
-            // armPosition = ARM_SCORE_SPECIMEN;
-            //wrist.setPosition(WRIST_FOLDED_IN);
-
-
+            }
+            // else if (gamepad2.dpad_left){
+            //   hangPosotion = HANG_TEST;
             //}
+
             //else if (gamepad2.dpad_up){
             /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
             // armPosition = ARM_ATTACH_HANGING_HOOK;
@@ -377,7 +402,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
              */
 
             if (armPosition < 45 * ARM_TICKS_PER_DEGREE){
-                armLiftComp = (0.25568 * liftPosition);
+                armLiftComp = (0.17 * liftPosition);
             }
             else{
                 armLiftComp = 0;
@@ -434,10 +459,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
             else if (gamepad2.left_bumper){
                 liftPosition -= 2800 * cycletime;
+                wrist.setPosition(0);
             }
+
             /*here we check to see if the lift is trying to go higher than the maximum extension.
              *if it is, we set the variable to the max.
              */
+
             if (liftPosition > LIFT_SCORING_IN_HIGH_BASKET){
                 liftPosition = LIFT_SCORING_IN_HIGH_BASKET;
             }
@@ -447,6 +475,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             liftMotor.setTargetPosition((int) (liftPosition));
+            //RightHang.setTargetPosition((int) (hangPosotion));
+            //LeftHang.setTargetPosition((int) (hangPosotion));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -457,7 +487,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
             }
 
-
+            RightHang.setPower(-gamepad2.left_stick_y);
+            LeftHang.setPower(gamepad2.left_stick_y);
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -487,6 +518,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("armTarget: ", armMotor.getTargetPosition());
             telemetry.addData("arm Encoder: ", armMotor.getCurrentPosition());
             telemetry.addData("wrist position" , wrist.getPosition());
+            telemetry.addData("wrist direction" , wrist.getDirection());
             telemetry.update();
         }
     }}
