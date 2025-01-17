@@ -29,35 +29,15 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -102,7 +82,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     //    public CRServo  intake = null; //the active intake servo
     public Servo    wrist = null; //the wrist servo
     public Servo    claw  = null;
-
+    private DcMotor LeftHang = null;
+    private DcMotor RightHang = null;
 
     /* This constant is the number of encoder ticks for each degree of rotation of the arm.
   To find this, we first need to consider the total gear reduction powering our arm.
@@ -131,13 +112,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     as far from the starting position, decrease it. */
 
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
-    final double ARMZERO = 0;
     final double ARM_COLLECT               = 20 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
+    final double HANG_TEST           = 1;
+
 
     /* Variables to store the speed the intake servo should be set at to intake, and deposit game elements. */
    /* final double INTAKE_COLLECT    = -1.0;
@@ -146,7 +128,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 */
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
     final double WRIST_FOLDED_IN   = 0;
-    final double WRIST_FOLDED_OUT  = 0.78;
+    final double WRIST_FOLDED_OUT  = 0.72;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -156,11 +138,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT =  315 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
+    double hangPosotion= 0;
 
     double cycletime = 0;
     double looptime = 0;
@@ -170,8 +153,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     final double claw_OPEN = 0;
     final double claw_CLOSE= 1;
-    IMU imu;
-
 
     @Override
     public void runOpMode() {
@@ -186,12 +167,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
 
         claw  = hardwareMap.get(Servo.class, "claw");
-        imu = hardwareMap.get(IMU.class, "imu");
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
+        LeftHang = hardwareMap.get(DcMotor.class, "LeftHang");
+        RightHang = hardwareMap.get(DcMotor.class, "RightHang");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -208,6 +185,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LeftHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         wrist  = hardwareMap.get(Servo.class, "wrist");
 
 
@@ -227,6 +206,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         /* testing above^  */
+
+        //LeftHang.setTargetPosition(0);
+        //LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //RightHang.setTargetPosition(0);
+        //RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -310,7 +296,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(0);
             }
             if(gamepad1.a){
-                wrist.setPosition(WRIST_FOLDED_OUT);
+                wrist.setPosition(0.76);
             }
             if(gamepad1.x){
                 wrist.setPosition(0.67);
@@ -328,15 +314,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
 
-            if(gamepad2.y){
-                /* This is the intaking/collecting arm position */
-                armPosition = ARM_COLLAPSED_INTO_ROBOT;
-                liftPosition = LIFT_COLLECT; // is this what we want?
-                wrist.setPosition(WRIST_FOLDED_OUT);
-                armPosition = ARMZERO;
-                //intake.setPower(INTAKE_COLLECT);
+            //if(gamepad2.x){
+            /* This is the intaking/collecting arm position */
+            //  armPosition = ARM_COLLECT;
+            //liftPosition = LIFT_COLLECT; // is this what we want?
+            //wrist.setPosition(WRIST_FOLDED_OUT);
+            //intake.setPower(INTAKE_COLLECT);
 
-            }
+            //}
 
             //else if (gamepad2.y){
                     /* This is about 20° up from the collecting position to clear the barrier
@@ -364,16 +349,19 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             }
             if (gamepad1.right_bumper){
-                armPosition = armPosition + 25;
+                armPosition = armPosition + 18;
             }
             if (gamepad1.left_bumper){
-                armPosition = armPosition - 25;
+                armPosition = armPosition - 18;
             }
             else if (gamepad2.x){
                 /* This is the correct height to score SPECIMEN on the HIGH CHAMBER */
                 armPosition = ARM_SCORE_SPECIMEN;
 
             }
+            // else if (gamepad2.dpad_left){
+            //   hangPosotion = HANG_TEST;
+            //}
 
             //else if (gamepad2.dpad_up){
             /* This sets the arm to vertical to hook onto the LOW RUNG for hanging */
@@ -487,6 +475,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             liftMotor.setTargetPosition((int) (liftPosition));
+            //RightHang.setTargetPosition((int) (hangPosotion));
+            //LeftHang.setTargetPosition((int) (hangPosotion));
 
             ((DcMotorEx) liftMotor).setVelocity(2100);
             //     liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -497,7 +487,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 telemetry.addLine("MOTOR EXCEEDED CURRENT LIMIT!");
             }
 
-
+            RightHang.setPower(-gamepad2.left_stick_y);
+            LeftHang.setPower(gamepad2.left_stick_y);
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -516,15 +507,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             cycletime = looptime-oldtime;
             oldtime = looptime;
 
-            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
 
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
-            telemetry.addData("Yaw (Z) velocity", "%.2f Deg/Sec", angularVelocity.zRotationRate);
-            telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", angularVelocity.xRotationRate);
-            telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", angularVelocity.yRotationRate);
             telemetry.addData("lift variable", liftPosition);
             telemetry.addData("Lift Target Position",liftMotor.getTargetPosition());
             telemetry.addData("lift current position", liftMotor.getCurrentPosition());

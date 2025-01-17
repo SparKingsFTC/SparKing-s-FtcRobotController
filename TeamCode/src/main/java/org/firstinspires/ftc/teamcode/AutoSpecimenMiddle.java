@@ -165,51 +165,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         //180 degree turnLeft(0.7, 1370);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
-        liftMotorPlacement(0.75, 0);
-        claw.setPosition(1);
-        ForwardBackward(0.5, 26, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        ForwardBackward(0.5,1, -1);
-        wrist.setPosition(0.67);
-        wrist.setPosition(0.9);
-        sleep(250);
-        quick();
-
-        ForwardBackward(1,4.5, 1);
-        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        ForwardBackward(0.75, 15, 1);
-        armMotorPlacement(0.5, ARM_COLLAPSED_INTO_ROBOT);
-        //turnLeft(0.7, 1370);
-        turnLeft(0.7, 1415);
-        Right(0.75, 43);
-        wrist.setPosition(0.5);
-        sleep(500);
-        ForwardBackward(0.5, 4,  -1);
-        claw.setPosition(1);
-        sleep(1000);
-        armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
-        ForwardBackward(0.75, 7, 1);
-        Left(0.75, 35);
-        turnLeft(0.7, 1485);
-        wrist.setPosition(0);
-        ForwardBackward(0.5, 18, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        claw.setPosition(1);
-        ForwardBackward(0.5,2,1);
-        wrist.setPosition(0.67);
-        wrist.setPosition(0.95);
-        ForwardBackward(1,3, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN2);
-        ForwardBackward(1,3, -1);
-        claw.setPosition(0);
-        wrist.setPosition(0);
-        ForwardBackward(0.75, 17.5, 1);
-        Left(0.75, 43);
-
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);  // pause to display final telemetry message.
+         // pause to display final telemetry message.
         requestOpModeStop();
     }
 
