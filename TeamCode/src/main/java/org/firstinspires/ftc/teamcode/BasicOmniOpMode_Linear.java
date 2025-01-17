@@ -310,6 +310,15 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad2.dpad_down) {
                 claw.setPosition(claw_CLOSE);
             }
+            if(gamepad2.y){
+                /* This is the intaking/collecting arm position */
+                armPosition = ARM_COLLAPSED_INTO_ROBOT;
+                liftPosition = LIFT_COLLECT; // is this what we want?
+                wrist.setPosition(WRIST_FOLDED_OUT);
+                armPosition = 0;
+                //intake.setPower(INTAKE_COLLECT);
+
+            }
 
 
 
