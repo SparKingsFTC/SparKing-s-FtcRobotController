@@ -131,10 +131,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ((DcMotorEx) armMotor).setCurrentAlert(5, CurrentUnit.AMPS);
 
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -143,7 +139,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+//use brake mode for speedy no pauses goofy stuff
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -165,49 +161,15 @@ public class AutoSpecimenMiddle extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-        liftMotorPlacement(0.75, 0);
-        claw.setPosition(1);
         // 45 degree turnLeft(0.7, 720);
         //180 degree turnLeft(0.7, 1370);
 //robot is 17 inches
         //never put wrist at 1!! .85 or something
-        ForwardBackward(1, 26, -1);
-
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        sleep(500);
-        wrist.setPosition(0.67);
-        wrist.setPosition(0.9);
-        sleep(250);
-        quick();
-        ForwardBackward(0.75, 15, 1);
-        armMotorPlacement(1, ARM_COLLAPSED_INTO_ROBOT);
-        turnLeft(0.7, 720);
-        ForwardBackward(0.75, 55, -1);
-        wrist.setPosition(0.5);
-        sleep(500);
-        ForwardBackward(0.5, 4,  -1);
+        liftMotorPlacement(0.75, 0);
         claw.setPosition(1);
-        sleep(250);
-        armMotorPlacement(1, ARM_SCORE_SPECIMEN2);
-        ForwardBackward(0.75, 65, 1);
-        turnRight(0.7, 720);
-        ForwardBackward(0.75, 25,-1);
+        ForwardBackward(0.5, 28, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        wrist.setPosition(0.67);
-        wrist.setPosition(0.9);
-        sleep(250);
-        quick();
-        ForwardBackward(1, 20, 1);
-        Left(1, 46);
-
-
-
-
-/*        liftMotorPlacement(0.75, 0);
-        claw.setPosition(1);
-        ForwardBackward(0.5, 26, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
-        ForwardBackward(0.5,1, -1);
+        ForwardBackward(0.5,1.5, -1);
         wrist.setPosition(0.67);
         wrist.setPosition(0.9);
         sleep(250);
@@ -222,7 +184,8 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         Right(0.75, 43);
         wrist.setPosition(0.5);
         sleep(500);
-        ForwardBackward(0.5, 4,  -1);
+        ForwardBackward(0.5, 1,  -1);
+        ForwardBackward(0.5, 0.4,  1);
         claw.setPosition(1);
         sleep(1000);
         armMotorPlacement(0.75, ARM_SCORE_SPECIMEN2);
@@ -233,21 +196,20 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         ForwardBackward(0.5, 18, -1);
         armMotorPlacement(0.5, ARM_SCORE_SPECIMEN);
         claw.setPosition(1);
-        ForwardBackward(0.5,2,1);
+        ForwardBackward(0.5,2,-1);
         wrist.setPosition(0.67);
         wrist.setPosition(0.95);
-        ForwardBackward(1,3, -1);
-        armMotorPlacement(0.5, ARM_SCORE_SPECIMEN2);
+        quick();
         ForwardBackward(1,3, -1);
         claw.setPosition(0);
         wrist.setPosition(0);
         ForwardBackward(0.75, 17.5, 1);
-        Left(0.75, 43);
+        Left(0.75, 50 );
 
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
-        sleep(1000);  // pause to display final telemetry message. */
+        sleep(1000);  // pause to display final telemetry message.
         requestOpModeStop();
     }
 
@@ -264,7 +226,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         armMotorPlacement(1 ,ARM_SCORE_SPECIMEN2);
         claw.setPosition(0);
         wrist.setPosition(0);
-        sleep(250);
     }
     public void ForwardBackward(double speed, double inches, double movement) {
         int newLeftFrontTarget;
@@ -301,7 +262,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
 
             }
 
@@ -360,7 +321,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
 
             }
 
@@ -416,7 +377,7 @@ public class AutoSpecimenMiddle extends LinearOpMode {
             rightBackDrive.setPower(Math.abs(speed));
 
             while (opModeIsActive() &&
-                    (leftFrontDrive.isBusy() && leftBackDrive.isBusy() && rightBackDrive.isBusy() && rightFrontDrive.isBusy())) {
+                    (leftFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy() || rightFrontDrive.isBusy())) {
 
             }
 
@@ -536,17 +497,6 @@ public class AutoSpecimenMiddle extends LinearOpMode {
         leftBackDrive.setPower(-power);
         rightFrontDrive.setPower(power);
         rightBackDrive.setPower(power);
-        sleep(time);
-        leftFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
-    }
-    public void turnRight(double power, long time) {
-        leftFrontDrive.setPower(power);
-        leftBackDrive.setPower(power);
-        rightFrontDrive.setPower(-power);
-        rightBackDrive.setPower(-power);
         sleep(time);
         leftFrontDrive.setPower(0);
         leftBackDrive.setPower(0);

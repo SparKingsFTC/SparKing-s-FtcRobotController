@@ -291,6 +291,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad2.left_trigger != 0) {
                 intake.setPower(INTAKE_DEPOSIT);
             }*/
+            if (gamepad1.dpad_down){
+                wrist.setPosition(0.95);
+            }
 
             if(gamepad1.b){
                 wrist.setPosition(0);
