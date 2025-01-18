@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 
-@Autonomous(name="USE To PARK IN auTO anf speiciman", group="Robot")
+@Autonomous(name="parkspec", group="Robot")
 
 public class SpecParkAuto extends LinearOpMode {
 
